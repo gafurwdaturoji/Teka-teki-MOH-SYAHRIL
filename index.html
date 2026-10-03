@@ -2182,36 +2182,37 @@ async function toggleMusic(){
 
   musicOn = !musicOn;
 
-  localStorage.setItem(
-    "musicOn",
-    musicOn
-  );
+  localStorage.setItem("musicOn", musicOn);
 
   if(musicOn){
 
-    try{
+    bgMusic.volume = Number(musicVolume.value);
 
+    try{
       await bgMusic.play();
 
-    }catch(e){
+      musicToggle.textContent = "ON 🔊";
 
-      console.log(
-        "Musik menunggu interaksi pengguna"
-      );
+    }catch(error){
 
+      console.log("Gagal memutar musik:", error);
+
+      musicOn = false;
+
+      localStorage.setItem("musicOn", "false");
+
+      musicToggle.textContent = "OFF 🔇";
+
+      alert("Musik tidak bisa diputar. Coba tekan ON lagi.");
     }
 
   }else{
 
     bgMusic.pause();
 
+    musicToggle.textContent = "OFF 🔇";
   }
-
-  updateMusicButton();
-
-  playClick();
 }
-
 
 /* =========================
    VOLUME
@@ -2425,26 +2426,6 @@ function playWrong(){
    SUARA SEMUA BUTTON
 ========================= */
 
-document.addEventListener(
-  "click",
-  function(e){
-
-    const button =
-      e.target.closest("button");
-
-    if(!button)return;
-
-    if(
-      button.id !== "musicToggle" &&
-      button.id !== "soundToggle"
-    ){
-
-      playClick();
-
-    }
-
-  }
-);
 
 
 /* =========================
