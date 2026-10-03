@@ -1,0 +1,636 @@
+rm -rf ~/teka-teki && mkdir -p ~/teka-teki && cd ~/teka-teki && cat > index.html <<'EOF'
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOH SYAHRIL - Quiz</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+color:white;
+min-height:100vh;
+background:
+radial-gradient(circle at 10% 20%,#0066ff55,transparent 30%),
+radial-gradient(circle at 90% 80%,#a000ff55,transparent 30%),
+linear-gradient(135deg,#020617,#11052d,#020617);
+padding:20px;
+}
+
+.container{
+max-width:560px;
+margin:auto;
+}
+
+.card{
+background:#10162eea;
+border:1px solid #ffffff18;
+border-radius:25px;
+padding:25px;
+margin:15px 0;
+box-shadow:0 0 40px #0066ff22,0 15px 50px #0009;
+backdrop-filter:blur(12px);
+}
+
+.brand{
+text-align:center;
+font-size:13px;
+font-weight:bold;
+letter-spacing:6px;
+color:#c084fc;
+text-shadow:0 0 15px #a855f7;
+}
+
+h1{
+text-align:center;
+font-size:32px;
+color:#67e8f9;
+text-shadow:0 0 18px #06b6d4;
+margin:12px 0;
+}
+
+.subtitle{
+text-align:center;
+color:#aeb8d8;
+line-height:1.6;
+}
+
+.menu{
+display:grid;
+gap:13px;
+margin-top:25px;
+}
+
+button{
+width:100%;
+padding:16px;
+border:0;
+border-radius:15px;
+font-size:16px;
+font-weight:bold;
+color:white;
+background:#273257;
+cursor:pointer;
+transition:.2s;
+}
+
+button:hover{
+transform:translateY(-2px);
+background:#394a7d;
+box-shadow:0 0 18px #38bdf855;
+}
+
+.primary{
+background:linear-gradient(90deg,#06b6d4,#8b5cf6);
+box-shadow:0 0 20px #06b6d455;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+}
+
+.stat{
+background:#20294c;
+padding:12px 5px;
+border-radius:13px;
+text-align:center;
+font-weight:bold;
+}
+
+#question{
+font-size:20px;
+line-height:1.5;
+text-align:center;
+margin:30px 5px;
+}
+
+.answers{
+display:grid;
+gap:11px;
+}
+
+#message{
+text-align:center;
+min-height:25px;
+margin:20px 0;
+font-weight:bold;
+}
+
+.result{
+text-align:center;
+}
+
+.bigscore{
+font-size:55px;
+font-weight:bold;
+color:#67e8f9;
+text-shadow:0 0 20px #06b6d4;
+margin:20px;
+}
+
+.progress{
+height:8px;
+background:#252d4c;
+border-radius:10px;
+margin:20px 0;
+overflow:hidden;
+}
+
+.progressbar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#06b6d4,#a855f7);
+transition:.3s;
+}
+
+.hidden{
+display:none;
+}
+
+.info{
+color:#b9c2dd;
+line-height:1.7;
+font-size:14px;
+}
+
+.info h2{
+color:#67e8f9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- BERANDA -->
+<div id="home" class="card">
+
+<div class="brand">MOH SYAHRIL</div>
+
+<h1>🧠 QUIZ TEKA-TEKI</h1>
+
+<p class="subtitle">
+Selamat datang di game teka-teki!<br>
+Uji pengetahuan, kecepatan, dan logikamu.
+</p>
+
+<div class="menu">
+
+<button class="primary" onclick="mulaiGame()">
+🎮 MULAI BERMAIN
+</button>
+
+<button onclick="caraMain()">
+📖 CARA BERMAIN
+</button>
+
+</div>
+
+</div>
+
+<!-- GAME -->
+<div id="game" class="card hidden">
+
+<div class="brand">MOH SYAHRIL</div>
+
+<div class="stats">
+<div class="stat">
+⭐ <span id="score">0</span>
+</div>
+
+<div class="stat">
+❤️ <span id="life">3</span>
+</div>
+
+<div class="stat">
+⏱️ <span id="time">15</span>
+</div>
+</div>
+
+<div class="progress">
+<div id="progressbar" class="progressbar"></div>
+</div>
+
+<div style="text-align:center;color:#aeb8d8;font-size:13px">
+Pertanyaan <span id="nomor">1</span> dari <span id="total">20</span>
+</div>
+
+<div id="question"></div>
+
+<div id="answers" class="answers"></div>
+
+<div id="message"></div>
+
+<button id="next" class="primary hidden" onclick="nextQuestion()">
+SOAL BERIKUTNYA ➜
+</button>
+
+</div>
+
+<!-- HASIL -->
+<div id="result" class="card hidden result">
+
+<div class="brand">MOH SYAHRIL</div>
+
+<h1>🏆 HASIL QUIZ</h1>
+
+<p>Skor kamu:</p>
+
+<div id="finalScore" class="bigscore">0</div>
+
+<p id="resultText"></p>
+
+<button class="primary" onclick="mulaiGame()">
+🔄 MAIN LAGI
+</button>
+
+<br><br>
+
+<button onclick="keBeranda()">
+🏠 KEMBALI KE BERANDA
+</button>
+
+</div>
+
+<!-- CARA BERMAIN -->
+<div id="cara" class="card hidden info">
+
+<h1>📖 CARA BERMAIN</h1>
+
+<p>1. Tekan tombol <b>Mulai Bermain</b>.</p>
+
+<p>2. Akan muncul banyak pertanyaan teka-teki.</p>
+
+<p>3. Pilih satu jawaban yang menurut kamu benar.</p>
+
+<p>4. Setiap jawaban benar mendapatkan
+<b>10 poin</b>.</p>
+
+<p>5. Kamu memiliki <b>3 nyawa</b>.</p>
+
+<p>6. Setiap pertanyaan mempunyai waktu
+<b>15 detik</b>.</p>
+
+<p>7. Setelah semua pertanyaan selesai, kamu bisa melihat
+<b>skor akhir</b>.</p>
+
+<button class="primary" onclick="keBeranda()">
+🏠 KEMBALI
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const soal=[
+
+{
+q:"Aku punya tangan tetapi tidak bisa memegang. Aku apa?",
+a:["Jam","Kursi","Pohon","Buku"],
+c:0
+},
+
+{
+q:"Semakin diisi semakin ringan. Aku apa?",
+a:["Balon","Batu","Tas","Meja"],
+c:0
+},
+
+{
+q:"Aku punya gigi tetapi tidak bisa menggigit. Aku apa?",
+a:["Sisir","Kucing","Ikan","Buku"],
+c:0
+},
+
+{
+q:"Apa yang selalu naik tetapi tidak pernah turun?",
+a:["Umur","Hujan","Mobil","Tangga"],
+c:0
+},
+
+{
+q:"Aku bisa berjalan tanpa kaki dan menangis tanpa mata. Aku apa?",
+a:["Awan","Meja","Buku","Kursi"],
+c:0
+},
+
+{
+q:"Apa yang mempunyai leher tetapi tidak mempunyai kepala?",
+a:["Botol","Meja","Sepatu","Piring"],
+c:0
+},
+
+{
+q:"Aku memiliki banyak kunci tetapi tidak bisa membuka pintu. Aku apa?",
+a:["Piano","Rumah","Mobil","Lemari"],
+c:0
+},
+
+{
+q:"Apa yang bisa pecah walaupun tidak disentuh?",
+a:["Janji","Batu","Pohon","Air"],
+c:0
+},
+
+{
+q:"Makin dipotong makin panjang. Aku apa?",
+a:["Jalan","Buku","Gelas","Bola"],
+c:0
+},
+
+{
+q:"Aku putih saat kotor dan hitam saat bersih. Aku apa?",
+a:["Papan tulis","Baju","Sepatu","Kertas"],
+c:0
+},
+
+{
+q:"Apa yang memiliki mata tetapi tidak bisa melihat?",
+a:["Jarum","Kucing","Burung","Manusia"],
+c:0
+},
+
+{
+q:"Apa yang semakin banyak diambil justru semakin besar?",
+a:["Lubang","Batu","Air","Pasir"],
+c:0
+},
+
+{
+q:"Apa yang punya kepala dan ekor tetapi tidak punya badan?",
+a:["Koin","Ular","Ikan","Pensil"],
+c:0
+},
+
+{
+q:"Aku bisa terbang tanpa sayap. Aku bisa menangis tanpa mata. Aku apa?",
+a:["Awan","Batu","Meja","Sepatu"],
+c:0
+},
+
+{
+q:"Apa yang selalu ada di depan kita tetapi tidak bisa dilihat?",
+a:["Masa depan","Masa lalu","Bayangan","Angin"],
+c:0
+},
+
+{
+q:"Apa yang bisa mengisi ruangan tetapi tidak membutuhkan tempat?",
+a:["Cahaya","Meja","Kursi","Buku"],
+c:0
+},
+
+{
+q:"Aku punya banyak halaman tetapi bukan buku. Aku apa?",
+a:["Website","Pintu","Rumah","Sepatu"],
+c:0
+},
+
+{
+q:"Apa yang memiliki empat kaki tetapi tidak bisa berjalan?",
+a:["Meja","Kucing","Burung","Ikan"],
+c:0
+},
+
+/* SOAL KHUSUS NAMA */
+{
+q:"Siapa yang paling cocok menjadi nama karakter utama dalam game teka-teki ini?",
+a:["Ulfa","Anggi","Dinda","Sri","Mia","Pita","Arumi"],
+c:6
+},
+
+{
+q:"Apa yang digunakan untuk mengetik huruf di komputer?",
+a:["Keyboard","Monitor","Speaker","Mouse"],
+c:0
+}
+
+];
+
+let nomor=0;
+let skor=0;
+let nyawa=3;
+let waktu=15;
+let timer=null;
+let sudahJawab=false;
+
+document.getElementById("total").textContent=soal.length;
+
+function sembunyikanSemua(){
+
+document.getElementById("home").classList.add("hidden");
+document.getElementById("game").classList.add("hidden");
+document.getElementById("result").classList.add("hidden");
+document.getElementById("cara").classList.add("hidden");
+
+}
+
+function keBeranda(){
+
+clearInterval(timer);
+
+sembunyikanSemua();
+
+document.getElementById("home").classList.remove("hidden");
+
+}
+
+function caraMain(){
+
+sembunyikanSemua();
+
+document.getElementById("cara").classList.remove("hidden");
+
+}
+
+function mulaiGame(){
+
+clearInterval(timer);
+
+nomor=0;
+skor=0;
+nyawa=3;
+
+document.getElementById("score").textContent=0;
+document.getElementById("life").textContent=3;
+
+sembunyikanSemua();
+
+document.getElementById("game").classList.remove("hidden");
+
+tampilSoal();
+
+}
+
+function tampilSoal(){
+
+sudahJawab=false;
+waktu=15;
+
+document.getElementById("time").textContent=waktu;
+document.getElementById("nomor").textContent=nomor+1;
+
+document.getElementById("message").textContent="";
+
+document.getElementById("next").classList.add("hidden");
+
+let persen=((nomor)/soal.length)*100;
+
+document.getElementById("progressbar").style.width=persen+"%";
+
+document.getElementById("question").textContent=soal[nomor].q;
+
+let box=document.getElementById("answers");
+
+box.innerHTML="";
+
+soal[nomor].a.forEach((jawaban,index)=>{
+
+let btn=document.createElement("button");
+
+btn.textContent=jawaban;
+
+btn.onclick=()=>jawab(index);
+
+box.appendChild(btn);
+
+});
+
+clearInterval(timer);
+
+timer=setInterval(()=>{
+
+waktu--;
+
+document.getElementById("time").textContent=waktu;
+
+if(waktu<=0){
+
+clearInterval(timer);
+
+if(!sudahJawab){
+
+jawab(-1);
+
+}
+
+}
+
+},1000);
+
+}
+
+function jawab(pilihan){
+
+if(sudahJawab)return;
+
+sudahJawab=true;
+
+clearInterval(timer);
+
+let benar=soal[nomor].c;
+
+document.querySelectorAll("#answers button")
+.forEach(btn=>btn.disabled=true);
+
+if(pilihan===benar){
+
+skor+=10;
+
+document.getElementById("score").textContent=skor;
+
+document.getElementById("message").textContent=
+"✅ BENAR! +10 POIN";
+
+document.getElementById("message").style.color="#67f7a5";
+
+}else{
+
+nyawa--;
+
+document.getElementById("life").textContent=nyawa;
+
+document.getElementById("message").textContent=
+"❌ SALAH! Jawaban: "+soal[nomor].a[benar];
+
+document.getElementById("message").style.color="#ff7070";
+
+}
+
+document.getElementById("next").classList.remove("hidden");
+
+}
+
+function nextQuestion(){
+
+nomor++;
+
+if(nomor>=soal.length){
+
+selesaiGame();
+
+}else{
+
+tampilSoal();
+
+}
+
+}
+
+function selesaiGame(){
+
+clearInterval(timer);
+
+document.getElementById("game").classList.add("hidden");
+
+document.getElementById("result").classList.remove("hidden");
+
+document.getElementById("finalScore").textContent=skor;
+
+let maksimal=soal.length*10;
+
+let persen=Math.round((skor/maksimal)*100);
+
+let text="";
+
+if(persen>=90){
+
+text="🔥 Luar biasa! Kamu sangat jago!";
+
+}else if(persen>=70){
+
+text="😎 Mantap! Hasil kamu bagus!";
+
+}else if(persen>=50){
+
+text="👍 Lumayan! Coba lagi untuk meningkatkan skor.";
+
+}else{
+
+text="💪 Jangan menyerah! Coba lagi.";
+
+}
+
+document.getElementById("resultText").innerHTML=
+text+"<br><br>Skor: <b>"+skor+
+"</b> / "+maksimal+
+"<br>Nilai: <b>"+persen+"%</b>";
+
+}
+
+</script>
+
+</body>
+</html>
+EOF
+
+
