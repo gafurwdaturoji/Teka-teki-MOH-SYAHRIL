@@ -2354,6 +2354,12 @@ function beep(
 
 function playClick(){
 
+  const ctx = getAudioContext();
+
+  if(ctx.state === "suspended"){
+    ctx.resume();
+  }
+
   beep(
     700,
     0.07,
@@ -2362,7 +2368,6 @@ function playClick(){
   );
 
 }
-
 
 /* =========================
    BENAR
