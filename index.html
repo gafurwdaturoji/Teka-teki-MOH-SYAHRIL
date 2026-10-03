@@ -1065,14 +1065,21 @@ function updateHome(){
    GAME
 ========================= */
 
+
+let questionPool = [];
+let questionIndex = 0;
+
 function startGame(){
 
   resetGame();
 
+  // Acak semua soal setiap mulai game
+  questionPool = shuffle(questions);
+  questionIndex = 0;
+
   showPage("game");
 
   loadQuestion();
-
 }
 
 function shuffle(arr){
@@ -1094,17 +1101,17 @@ function loadQuestion(){
 
   clearInterval(game.timer);
 
-  if(game.current>=questions.length){
+if(questionIndex >= questionPool.length){
 
-    endGame();
+  endGame();
+  return;
+}
 
-    return;
-  }
+const q = questionPool[questionIndex];
 
   game.time=15;
   game.answered=false;
 
-  let q=questions[game.current];
 
   /*
     Jawaban pertama adalah jawaban benar.
@@ -1121,12 +1128,12 @@ function loadQuestion(){
 
   game.prepared=shuffle(prepared);
 
-  document.getElementById("qNum")
-    .textContent=game.current+1;
+document.getElementById("qNum")
+  .textContent=questionIndex+1;
 
-  document.getElementById("questionBar")
-    .style.width=
-    ((game.current+1)/questions.length*100)+"%";
+document.getElementById("questionBar")
+  .style.width=
+  ((questionIndex+1)/questionPool.length*100)+"%";
 
   document.getElementById("question")
     .textContent=q[0];
@@ -1134,7 +1141,7 @@ function loadQuestion(){
   document.getElementById("bonusBadge")
     .classList.toggle(
       "hidden",
-      game.current!==9
+questionIndex!==9
     );
 
   let box=document.getElementById("answers");
@@ -1231,7 +1238,7 @@ function correctAnswer(){
     game.bestCombo=game.combo;
 
   let points=
-    game.current===9 ? 20 : 10;
+questionIndex===9 ? 20 : 10
 
   if(game.combo>=3)
     points+=5;
@@ -1243,7 +1250,7 @@ function correctAnswer(){
   if(game.combo>=3)
     coins+=3;
 
-  if(game.current===9)
+if(questionIndex===9)
     coins+=10;
 
   game.earnedCoins+=coins;
@@ -1323,7 +1330,7 @@ function timeoutQuestion(){
 
 function nextQuestion(){
 
-  game.current++;
+  questionIndex++;
 
   loadQuestion();
 
