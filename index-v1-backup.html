@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOH SYAHRIL - Quiz Event</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top,#172554,#020617 55%,#000);
+  color:white;
+  padding:15px;
+}
+
+.container{
+  width:100%;
+  max-width:700px;
+  margin:auto;
+}
+
+.card{
+  background:rgba(15,23,42,.92);
+  border:1px solid #334155;
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.logo{
+  text-align:center;
+  font-size:34px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.sub{
+  text-align:center;
+  color:#94a3b8;
+  margin-bottom:20px;
+}
+
+button{
+  width:100%;
+  border:none;
+  border-radius:14px;
+  padding:14px;
+  margin:7px 0;
+  color:white;
+  background:#1e293b;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.2);
+}
+
+.primary{
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+.green{
+  background:#15803d;
+}
+
+.orange{
+  background:#c2410c;
+}
+
+.red{
+  background:#b91c1c;
+}
+
+.gold{
+  background:#a16207;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:15px;
+}
+
+.stat{
+  background:#0f172a;
+  border:1px solid #334155;
+  padding:10px 5px;
+  border-radius:13px;
+  text-align:center;
+}
+
+.stat b{
+  display:block;
+  font-size:18px;
+}
+
+.stat span{
+  color:#94a3b8;
+  font-size:11px;
+}
+
+.progress{
+  height:10px;
+  background:#1e293b;
+  border-radius:20px;
+  overflow:hidden;
+  margin:10px 0 20px;
+}
+
+.progress div{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#22c55e,#06b6d4);
+  transition:.3s;
+}
+
+.question{
+  font-size:22px;
+  font-weight:bold;
+  line-height:1.4;
+  margin-bottom:18px;
+}
+
+.answer{
+  text-align:left;
+  position:relative;
+  overflow:hidden;
+}
+
+.answer.correct{
+  background:#166534;
+  border:2px solid #22c55e;
+}
+
+.answer.wrong{
+  background:#991b1b;
+  border:2px solid #ef4444;
+}
+
+.answer.disabled{
+  opacity:.3;
+  pointer-events:none;
+}
+
+.badge{
+  display:inline-block;
+  padding:7px 12px;
+  border-radius:20px;
+  background:#312e81;
+  color:#c4b5fd;
+  font-weight:bold;
+  font-size:13px;
+  margin-bottom:12px;
+}
+
+.coins{
+  color:#facc15;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.menu-grid button{
+  margin:0;
+}
+
+.mission{
+  background:#0f172a;
+  border:1px solid #334155;
+  border-radius:15px;
+  padding:14px;
+  margin:9px 0;
+}
+
+.mission-title{
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.mission small{
+  color:#94a3b8;
+}
+
+.mission-bar{
+  height:7px;
+  background:#1e293b;
+  border-radius:10px;
+  margin:10px 0;
+  overflow:hidden;
+}
+
+.mission-bar div{
+  height:100%;
+  background:#22c55e;
+}
+
+.shop-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  background:#0f172a;
+  border:1px solid #334155;
+  padding:14px;
+  border-radius:15px;
+  margin:8px 0;
+}
+
+.shop-item button{
+  width:auto;
+  min-width:110px;
+  margin:0;
+  padding:10px;
+}
+
+.level{
+  text-align:center;
+  padding:15px;
+  background:linear-gradient(135deg,#172554,#312e81);
+  border-radius:17px;
+  margin-bottom:15px;
+}
+
+.level-number{
+  font-size:40px;
+  font-weight:900;
+}
+
+.xpbar{
+  height:9px;
+  background:#020617;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.xpbar div{
+  height:100%;
+  background:#facc15;
+}
+
+.event{
+  padding:16px;
+  border-radius:17px;
+  background:
+    linear-gradient(135deg,#7c2d12,#451a03);
+  border:1px solid #fb923c;
+  margin-bottom:15px;
+}
+
+.event h3{
+  margin-bottom:7px;
+}
+
+.event p{
+  color:#fed7aa;
+}
+
+.result-score{
+  text-align:center;
+  font-size:48px;
+  font-weight:900;
+  margin:15px 0;
+  color:#facc15;
+}
+
+.center{
+  text-align:center;
+}
+
+.info{
+  color:#94a3b8;
+  line-height:1.6;
+}
+
+hr{
+  border:none;
+  border-top:1px solid #334155;
+  margin:15px 0;
+}
+
+@media(max-width:500px){
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .question{
+    font-size:19px;
+  }
+
+  .logo{
+    font-size:28px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HOME -->
+<div id="home" class="card">
+  <div class="logo">🧠 MOH SYAHRIL</div>
+  <div class="sub">QUIZ TEKA-TEKI & EVENT</div>
+
+  <div class="level">
+    <div>LEVEL</div>
+    <div class="level-number" id="homeLevel">1</div>
+    <div>⭐ <span id="homeXP">0</span> XP</div>
+    <div class="xpbar">
+      <div id="homeXPBar"></div>
+    </div>
+  </div>
+
+  <div class="event">
+    <h3>🎉 EVENT AKTIF</h3>
+    <p>🔥 Event "Pemburu Koin" sedang berlangsung!</p>
+    <p>Jawab soal dan selesaikan misi untuk mendapatkan koin.</p>
+  </div>
+
+  <button class="primary" onclick="startGame()">🎮 MULAI BERMAIN</button>
+
+  <div class="menu-grid">
+    <button onclick="showPage('missions')">🎯 MISI</button>
+    <button onclick="showPage('shop')">🛒 TOKO</button>
+    <button onclick="showPage('stats')">📊 STATISTIK</button>
+    <button onclick="showPage('event')">🎉 EVENT</button>
+  </div>
+
+  <button onclick="showPage('how')">📖 CARA BERMAIN</button>
+</div>
+
+
+<!-- GAME -->
+<div id="game" class="card hidden">
+
+  <div class="stats">
+    <div class="stat">
+      <b id="score">0</b>
+      <span>SKOR</span>
+    </div>
+
+    <div class="stat">
+      <b id="life">❤️❤️❤️</b>
+      <span>NYAWA</span>
+    </div>
+
+    <div class="stat">
+      <b id="timer">15</b>
+      <span>DETIK</span>
+    </div>
+
+    <div class="stat">
+      <b>🔥 <span id="combo">0</span></b>
+      <span>COMBO</span>
+    </div>
+  </div>
+
+  <div>
+    Soal <b id="questionNumber">1</b>/20
+  </div>
+
+  <div class="progress">
+    <div id="progressBar"></div>
+  </div>
+
+  <div id="bonusLabel" class="badge hidden">
+    🎁 SOAL BONUS +20
+  </div>
+
+  <div id="question" class="question"></div>
+
+  <div id="answers"></div>
+
+  <hr>
+
+  <div class="menu-grid">
+    <button class="gold" onclick="useFifty()">💡 50:50</button>
+    <button class="orange" onclick="useSkip()">🔄 Ganti Soal</button>
+  </div>
+
+  <button onclick="showPage('shopFromGame')">🛒 Buka Toko</button>
+</div>
+
+
+<!-- RESULT -->
+<div id="result" class="card hidden center">
+  <div class="logo">🏆 SELESAI!</div>
+
+  <div class="result-score" id="finalScore">0</div>
+
+  <p>Skor akhir</p>
+
+  <hr>
+
+  <p>✅ Benar: <b id="finalCorrect">0</b></p>
+  <p>🔥 Combo terbaik: <b id="finalCombo">0</b></p>
+  <p>🪙 Koin didapat: <b id="finalCoins">0</b></p>
+  <p>⭐ XP didapat: <b id="finalXP">0</b></p>
+
+  <br>
+
+  <button class="primary" onclick="startGame()">🔄 MAIN LAGI</button>
+  <button onclick="showPage('home')">🏠 BERANDA</button>
+</div>
+
+
+<!-- MISSIONS -->
+<div id="missions" class="card hidden">
+  <div class="logo">🎯 MISI</div>
+  <div class="sub">Selesaikan misi untuk mendapatkan koin.</div>
+
+  <div id="missionList"></div>
+
+  <button onclick="showPage('home')">🏠 KEMBALI</button>
+</div>
+
+
+<!-- SHOP -->
+<div id="shop" class="card hidden">
+  <div class="logo">🛒 TOKO</div>
+  <div class="sub">
+    Saldo: <span class="coins">🪙 <b id="shopCoins">0</b></span>
+  </div>
+
+  <div class="shop-item">
+    <div>
+      <b>💡 50:50</b>
+      <br>
+      <small>Hilangkan 2 jawaban salah.</small>
+    </div>
+    <button class="gold" onclick="buyItem('fifty')">🪙 30</button>
+  </div>
+
+  <div class="shop-item">
+    <div>
+      <b>🔄 Ganti Soal</b>
+      <br>
+      <small>Lewati soal tanpa kehilangan nyawa.</small>
+    </div>
+    <button class="orange" onclick="buyItem('skip')">🪙 40</button>
+  </div>
+
+  <div class="shop-item">
+    <div>
+      <b>❤️ Tambah Nyawa</b>
+      <br>
+      <small>Mendapatkan 1 nyawa tambahan.</small>
+    </div>
+    <button class="green" onclick="buyItem('life')">🪙 50</button>
+  </div>
+
+  <div class="shop-item">
+    <div>
+      <b>⏱️ Tambah Waktu</b>
+      <br>
+      <small>Tambah 10 detik saat bermain.</small>
+    </div>
+    <button class="primary" onclick="buyItem('time')">🪙 35</button>
+  </div>
+
+  <button onclick="showPage('home')">🏠 KEMBALI</button>
+</div>
+
+
+<!-- EVENT -->
+<div id="event" class="card hidden">
+  <div class="logo">🎉 EVENT</div>
+
+  <div class="event">
+    <h3>🔥 PEMBURU KOIN</h3>
+    <p>Event aktif sepanjang permainan.</p>
+    <br>
+    <p>🎯 Jawab benar = +5 koin</p>
+    <p>🔥 Combo 3+ = bonus koin</p>
+    <p>🎁 Soal bonus = hadiah lebih besar</p>
+    <p>🏆 Selesaikan misi = hadiah koin</p>
+  </div>
+
+  <div class="mission">
+    <b>🌟 TARGET EVENT</b>
+    <p class="info">
+      Kumpulkan sebanyak mungkin koin dengan menjawab soal
+      dan menyelesaikan berbagai misi.
+    </p>
+  </div>
+
+  <button onclick="showPage('missions')">🎯 LIHAT MISI</button>
+  <button onclick="showPage('shop')">🛒 BUKA TOKO</button>
+  <button onclick="showPage('home')">🏠 KEMBALI</button>
+</div>
+
+
+<!-- STATS -->
+<div id="stats" class="card hidden">
+  <div class="logo">📊 STATISTIK</div>
+
+  <div class="mission">
+    <b>🏆 Skor Terbaik</b>
+    <h2 id="bestScore">0</h2>
+  </div>
+
+  <div class="mission">
+    <b>🎮 Total Permainan</b>
+    <h2 id="totalGames">0</h2>
+  </div>
+
+  <div class="mission">
+    <b>✅ Total Jawaban Benar</b>
+    <h2 id="totalCorrect">0</h2>
+  </div>
+
+  <div class="mission">
+    <b>🔥 Combo Terbaik</b>
+    <h2 id="bestCombo">0</h2>
+  </div>
+
+  <div class="mission">
+    <b>🪙 Total Koin</b>
+    <h2 id="totalCoins">0</h2>
+  </div>
+
+  <div class="mission">
+    <b>⭐ Level</b>
+    <h2 id="statsLevel">1</h2>
+  </div>
+
+  <hr>
+
+  <button class="red" onclick="resetData()">🗑️ RESET SEMUA DATA</button>
+  <button onclick="showPage('home')">🏠 KEMBALI</button>
+</div>
+
+
+<!-- HOW -->
+<div id="how" class="card hidden">
+  <div class="logo">📖 CARA BERMAIN</div>
+
+  <div class="info">
+    <p>🎮 Jawab pertanyaan dengan memilih salah satu jawaban.</p>
+    <br>
+    <p>✅ Semua soal pada versi ini memiliki jawaban benar di pilihan <b>A</b>.</p>
+    <br>
+    <p>❤️ Kamu memiliki 3 nyawa.</p>
+    <br>
+    <p>⏱️ Setiap soal memiliki waktu 15 detik.</p>
+    <br>
+    <p>🔥 Jawaban benar berturut-turut menghasilkan combo.</p>
+    <br>
+    <p>🪙 Koin dapat digunakan untuk membeli bantuan.</p>
+    <br>
+    <p>🎯 Selesaikan misi untuk mendapatkan hadiah.</p>
+    <br>
+    <p>⭐ XP digunakan untuk menaikkan level.</p>
+    <br>
+    <p>💾 Progress otomatis disimpan di perangkat.</p>
+  </div>
+
+  <button onclick="showPage('home')">🏠 KEMBALI</button>
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA SOAL
+========================= */
+
+const questions = [
+
+{
+ q:"Apa ibu kota Indonesia?",
+ a:["Jakarta","Bandung","Surabaya","Medan"]
+},
+
+{
+ q:"Planet yang dikenal sebagai Planet Merah adalah?",
+ a:["Mars","Venus","Jupiter","Saturnus"]
+},
+
+{
+ q:"Berapa jumlah hari dalam satu minggu?",
+ a:["7","5","10","12"]
+},
+
+{
+ q:"Hewan yang dikenal sebagai raja hutan adalah?",
+ a:["Singa","Kucing","Kuda","Kelinci"]
+},
+
+{
+ q:"Berapa hasil dari 5 + 5?",
+ a:["10","15","20","25"]
+},
+
+{
+ q:"Air membeku pada suhu?",
+ a:["0°C","10°C","50°C","100°C"]
+},
+
+{
+ q:"Alat untuk mengukur suhu disebut?",
+ a:["Termometer","Barometer","Mikroskop","Kompas"]
+},
+
+{
+ q:"Organ tubuh yang digunakan untuk bernapas adalah?",
+ a:["Paru-paru","Lambung","Jantung","Ginjal"]
+},
+
+{
+ q:"Warna hasil campuran merah dan putih adalah?",
+ a:["Merah muda","Hijau","Biru","Hitam"]
+},
+
+{
+ q:"Benua terbesar di dunia adalah?",
+ a:["Asia","Afrika","Eropa","Australia"]
+},
+
+{
+ q:"Bahasa resmi Indonesia adalah?",
+ a:["Bahasa Indonesia","Bahasa Jawa","Bahasa Inggris","Bahasa Sunda"]
+},
+
+{
+ q:"Berapa jumlah bulan dalam satu tahun?",
+ a:["12","10","8","15"]
+},
+
+{
+ q:"Matahari terbit dari arah?",
+ a:["Timur","Barat","Utara","Selatan"]
+},
+
+{
+ q:"Hewan yang menghasilkan susu adalah?",
+ a:["Sapi","Ayam","Ikan","Ular"]
+},
+
+{
+ q:"Alat yang digunakan untuk melihat benda sangat kecil adalah?",
+ a:["Mikroskop","Teleskop","Kompas","Termometer"]
+},
+
+{
+ q:"Berapa hasil dari 10 × 2?",
+ a:["20","12","15","30"]
+},
+
+{
+ q:"Simbol kimia untuk air adalah?",
+ a:["H₂O","CO₂","O₂","NaCl"]
+},
+
+{
+ q:"Gunung tertinggi di dunia adalah?",
+ a:["Everest","Merapi","Fuji","Krakatau"]
+},
+
+{
+ q:"Sumber energi utama bagi bumi adalah?",
+ a:["Matahari","Bulan","Angin","Batu"]
+},
+
+{
+ q:"Benda yang digunakan untuk menghapus tulisan pensil adalah?",
+ a:["Penghapus","Penggaris","Spidol","Pensil"]
+}
+
+];
+
+
+/* =========================
+   DATA GAME
+========================= */
+
+let game = {
+  current:0,
+  score:0,
+  life:3,
+  time:15,
+  combo:0,
+  bestCombo:0,
+  correct:0,
+  coins:0,
+  xp:0,
+  usedFifty:false,
+  usedSkip:false,
+  timer:null
+};
+
+
+/* =========================
+   DATA PLAYER
+========================= */
+
+let data = JSON.parse(
+  localStorage.getItem("mohSyahrilQuiz")
+) || {
+
+  coins:100,
+  xp:0,
+  level:1,
+
+  bestScore:0,
+  totalGames:0,
+  totalCorrect:0,
+  bestCombo:0,
+
+  missions:{
+    correct:0,
+    coins:0,
+    games:0
+  },
+
+  completed:{
+    correct:false,
+    coins:false,
+    games:false
+  }
+};
+
+
+/* =========================
+   SIMPAN DATA
+========================= */
+
+function saveData(){
+  localStorage.setItem(
+    "mohSyahrilQuiz",
+    JSON.stringify(data)
+  );
+}
+
+
+/* =========================
+   LEVEL
+========================= */
+
+function calculateLevel(){
+
+  let level =
+    Math.floor(data.xp / 100) + 1;
+
+  data.level = level;
+
+  saveData();
+
+  updateHome();
+}
+
+
+/* =========================
+   UPDATE HOME
+========================= */
+
+function updateHome(){
+
+  document.getElementById("homeLevel").textContent =
+    data.level;
+
+  document.getElementById("homeXP").textContent =
+    data.xp;
+
+  let xpProgress =
+    data.xp % 100;
+
+  document.getElementById("homeXPBar").style.width =
+    xpProgress + "%";
+}
+
+
+/* =========================
+   PAGE
+========================= */
+
+function hideAll(){
+
+  [
+    "home",
+    "game",
+    "result",
+    "missions",
+    "shop",
+    "event",
+    "stats",
+    "how"
+  ].forEach(id=>{
+    document.getElementById(id)
+      .classList.add("hidden");
+  });
+
+}
+
+
+function showPage(page){
+
+  hideAll();
+
+  if(page === "shopFromGame"){
+    document.getElementById("shop")
+      .classList.remove("hidden");
+    updateShop();
+    return;
+  }
+
+  document.getElementById(page)
+    .classList.remove("hidden");
+
+  if(page === "missions")
+    updateMissions();
+
+  if(page === "shop")
+    updateShop();
+
+  if(page === "stats")
+    updateStats();
+
+  if(page === "home")
+    updateHome();
+}
+
+
+/* =========================
+   START GAME
+========================= */
+
+function startGame(){
+
+  clearInterval(game.timer);
+
+  game = {
+    current:0,
+    score:0,
+    life:3,
+    time:15,
+    combo:0,
+    bestCombo:0,
+    correct:0,
+    coins:0,
+    xp:0,
+    usedFifty:false,
+    usedSkip:false,
+    timer:null
+  };
+
+  hideAll();
+
+  document.getElementById("game")
+    .classList.remove("hidden");
+
+  loadQuestion();
+}
+
+
+/* =========================
+   LOAD SOAL
+========================= */
+
+function loadQuestion(){
+
+  clearInterval(game.timer);
+
+  if(game.current >= questions.length){
+    endGame();
+    return;
+  }
+
+  game.time = 15;
+
+  document.getElementById("questionNumber")
+    .textContent = game.current + 1;
+
+  document.getElementById("progressBar")
+    .style.width =
+    ((game.current + 1) / questions.length * 100) + "%";
+
+  document.getElementById("question")
+    .textContent =
+    questions[game.current].q;
+
+  let bonus =
+    game.current === 9;
+
+  document.getElementById("bonusLabel")
+    .classList.toggle("hidden",!bonus);
+
+  let answers =
+    document.getElementById("answers");
+
+  answers.innerHTML = "";
+
+  questions[game.current].a.forEach(
+    (answer,index)=>{
+
+      let btn =
+        document.createElement("button");
+
+      btn.className = "answer";
+
+      btn.textContent =
+        String.fromCharCode(65+index)
+        + ". "
+        + answer;
+
+      btn.onclick =
+        ()=>checkAnswer(index,btn);
+
+      answers.appendChild(btn);
+    }
+  );
+
+  updateGameUI();
+
+  startTimer();
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+function startTimer(){
+
+  game.timer =
+    setInterval(()=>{
+
+      game.time--;
+
+      updateGameUI();
+
+      if(game.time <= 0){
+
+        clearInterval(game.timer);
+
+        wrongAnswer();
+      }
+
+    },1000);
+}
+
+
+/* =========================
+   CHECK ANSWER
+========================= */
+
+function checkAnswer(index,button){
+
+  clearInterval(game.timer);
+
+  let all =
+    document.querySelectorAll(".answer");
+
+  all.forEach(b=>{
+    b.disabled = true;
+  });
+
+  if(index === 0){
+
+    button.classList.add("correct");
+
+    correctAnswer();
+
+  }else{
+
+    button.classList.add("wrong");
+
+    all[0].classList.add("correct");
+
+    wrongAnswer();
+  }
+}
+
+
+/* =========================
+   BENAR
+========================= */
+
+function correctAnswer(){
+
+  game.correct++;
+
+  game.combo++;
+
+  if(game.combo > game.bestCombo)
+    game.bestCombo = game.combo;
+
+  let points =
+    game.current === 9 ? 20 : 10;
+
+  if(game.combo >= 3)
+    points += 5;
+
+  game.score += points;
+
+  let coinReward = 5;
+
+  if(game.combo >= 3)
+    coinReward += 2;
+
+  if(game.current === 9)
+    coinReward += 10;
+
+  game.coins += coinReward;
+
+  game.xp += 10;
+
+  data.totalCorrect++;
+
+  data.missions.correct++;
+
+  data.missions.coins += coinReward;
+
+  data.xp += 10;
+
+  calculateLevel();
+
+  saveData();
+
+  updateGameUI();
+
+  setTimeout(nextQuestion,700);
+}
+
+
+/* =========================
+   SALAH
+========================= */
+
+function wrongAnswer(){
+
+  game.combo = 0;
+
+  game.life--;
+
+  updateGameUI();
+
+  if(game.life <= 0){
+
+    setTimeout(endGame,700);
+
+  }else{
+
+    setTimeout(nextQuestion,900);
+  }
+}
+
+
+/* =========================
+   NEXT
+========================= */
+
+function nextQuestion(){
+
+  game.current++;
+
+  loadQuestion();
+}
+
+
+/* =========================
+   50:50
+========================= */
+
+function useFifty(){
+
+  if(game.usedFifty){
+    alert("Bantuan 50:50 sudah digunakan.");
+    return;
+  }
+
+  game.usedFifty = true;
+
+  let buttons =
+    document.querySelectorAll(".answer");
+
+  let removed = 0;
+
+  for(let i=1;i<buttons.length;i++){
+
+    if(removed < 2){
+
+      buttons[i]
+        .classList.add("disabled");
+
+      removed++;
+    }
+  }
+}
+
+
+/* =========================
+   SKIP
+========================= */
+
+function useSkip(){
+
+  if(game.usedSkip){
+
+    alert("Ganti soal sudah digunakan.");
+    return;
+  }
+
+  game.usedSkip = true;
+
+  clearInterval(game.timer);
+
+  nextQuestion();
+}
+
+
+/* =========================
+   GAME UI
+========================= */
+
+function updateGameUI(){
+
+  document.getElementById("score")
+    .textContent = game.score;
+
+  document.getElementById("life")
+    .textContent =
+      "❤️".repeat(Math.max(0,game.life))
+      || "💀";
+
+  document.getElementById("timer")
+    .textContent = game.time;
+
+  document.getElementById("combo")
+    .textContent = game.combo;
+}
+
+
+/* =========================
+   END GAME
+========================= */
+
+function endGame(){
+
+  clearInterval(game.timer);
+
+  data.totalGames++;
+
+  data.missions.games++;
+
+  if(game.score > data.bestScore)
+    data.bestScore = game.score;
+
+  if(game.bestCombo > data.bestCombo)
+    data.bestCombo = game.bestCombo;
+
+  data.coins += game.coins;
+
+  saveData();
+
+  calculateLevel();
+
+  document.getElementById("game")
+    .classList.add("hidden");
+
+  document.getElementById("result")
+    .classList.remove("hidden");
+
+  document.getElementById("finalScore")
+    .textContent = game.score;
+
+  document.getElementById("finalCorrect")
+    .textContent = game.correct;
+
+  document.getElementById("finalCombo")
+    .textContent = game.bestCombo;
+
+  document.getElementById("finalCoins")
+    .textContent = game.coins;
+
+  document.getElementById("finalXP")
+    .textContent = game.xp;
+
+  checkMissions();
+}
+
+
+/* =========================
+   MISSIONS
+========================= */
+
+function checkMissions(){
+
+  if(data.missions.correct >= 5)
+    data.completed.correct = true;
+
+  if(data.missions.coins >= 100)
+    data.completed.coins = true;
+
+  if(data.missions.games >= 3)
+    data.completed.games = true;
+
+  saveData();
+}
+
+
+function updateMissions(){
+
+  checkMissions();
+
+  let html = "";
+
+  let missions = [
+
+    {
+      title:"🎯 Pemanasan",
+      desc:"Jawab 5 soal dengan benar.",
+      value:data.missions.correct,
+      target:5,
+      reward:50,
+      key:"correct"
+    },
+
+    {
+      title:"🪙 Pemburu Koin",
+      desc:"Dapatkan 100 koin dari permainan.",
+      value:data.missions.coins,
+      target:100,
+      reward:75,
+      key:"coins"
+    },
+
+    {
+      title:"🎮 Rajin Bermain",
+      desc:"Mainkan quiz sebanyak 3 kali.",
+      value:data.missions.games,
+      target:3,
+      reward:100,
+      key:"games"
+    }
+
+  ];
+
+  missions.forEach(m=>{
+
+    let progress =
+      Math.min(m.value,m.target);
+
+    let completed =
+      data.completed[m.key];
+
+    html += `
+      <div class="mission">
+
+        <div class="mission-title">
+          ${m.title}
+        </div>
+
+        <small>${m.desc}</small>
+
+        <div class="mission-bar">
+          <div style="width:${progress/m.target*100}%"></div>
+        </div>
+
+        <small>
+          ${progress}/${m.target}
+          • Hadiah 🪙 ${m.reward}
+        </small>
+
+        ${
+          completed
+          ?
+          `<button class="green"
+             onclick="claimMission('${m.key}',${m.reward})">
+             🎁 KLAIM HADIAH
+           </button>`
+          :
+          ""
+        }
+
+      </div>
+    `;
+  });
+
+  document.getElementById("missionList")
+    .innerHTML = html;
+}
+
+
+/* =========================
+   CLAIM MISSION
+========================= */
+
+function claimMission(key,reward){
+
+  if(!data.completed[key]){
+    alert("Misi belum selesai.");
+    return;
+  }
+
+  data.coins += reward;
+
+  data.completed[key] = "claimed";
+
+  saveData();
+
+  alert(
+    "🎉 Misi selesai!\n\n"
+    + "Kamu mendapatkan "
+    + reward
+    + " koin."
+  );
+
+  updateMissions();
+}
+
+
+/* =========================
+   SHOP
+========================= */
+
+function updateShop(){
+
+  document.getElementById("shopCoins")
+    .textContent = data.coins;
+}
+
+
+function buyItem(item){
+
+  let price = 0;
+
+  if(item === "fifty")
+    price = 30;
+
+  if(item === "skip")
+    price = 40;
+
+  if(item === "life")
+    price = 50;
+
+  if(item === "time")
+    price = 35;
+
+  if(data.coins < price){
+
+    alert("🪙 Koin kamu tidak cukup.");
+
+    return;
+  }
+
+  data.coins -= price;
+
+  saveData();
+
+  if(item === "fifty"){
+
+    game.usedFifty = false;
+
+    alert("💡 Bantuan 50:50 berhasil dibeli.");
+
+  }
+
+  if(item === "skip"){
+
+    game.usedSkip = false;
+
+    alert("🔄 Ganti soal berhasil dibeli.");
+
+  }
+
+  if(item === "life"){
+
+    if(
+      document
+      .getElementById("game")
+      .classList.contains("hidden")
+    ){
+
+      alert(
+        "❤️ Tambahan nyawa akan tersedia "
+        + "saat permainan berikutnya."
+      );
+
+    }else{
+
+      game.life++;
+
+      updateGameUI();
+
+      alert("❤️ +1 nyawa!");
+    }
+  }
+
+  if(item === "time"){
+
+    if(
+      !document
+      .getElementById("game")
+      .classList.contains("hidden")
+    ){
+
+      game.time += 10;
+
+      updateGameUI();
+
+      alert("⏱️ +10 detik!");
+
+    }else{
+
+      alert(
+        "⏱️ Bonus waktu akan digunakan "
+        + "saat bermain."
+      );
+    }
+  }
+
+  updateShop();
+}
+
+
+/* =========================
+   STATISTIK
+========================= */
+
+function updateStats(){
+
+  document.getElementById("bestScore")
+    .textContent = data.bestScore;
+
+  document.getElementById("totalGames")
+    .textContent = data.totalGames;
+
+  document.getElementById("totalCorrect")
+    .textContent = data.totalCorrect;
+
+  document.getElementById("bestCombo")
+    .textContent = data.bestCombo;
+
+  document.getElementById("totalCoins")
+    .textContent = data.coins;
+
+  document.getElementById("statsLevel")
+    .textContent = data.level;
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetData(){
+
+  let yakin =
+    confirm(
+      "⚠️ Yakin ingin menghapus semua progress?\n\n"
+      + "Koin, level, XP, statistik dan misi akan direset."
+    );
+
+  if(!yakin) return;
+
+  localStorage.removeItem("mohSyahrilQuiz");
+
+  location.reload();
+}
+
+
+/* =========================
+   START
+========================= */
+
+updateHome();
+updateShop();
+
+</script>
+
+</body>
+</html>
