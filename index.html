@@ -1,166 +1,316 @@
-rm -rf ~/teka-teki && mkdir -p ~/teka-teki && cd ~/teka-teki && cat > index.html <<'EOF'
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MOH SYAHRIL - Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOH SYAHRIL - Quiz Event</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
-color:white;
-min-height:100vh;
-background:
-radial-gradient(circle at 10% 20%,#0066ff55,transparent 30%),
-radial-gradient(circle at 90% 80%,#a000ff55,transparent 30%),
-linear-gradient(135deg,#020617,#11052d,#020617);
-padding:20px;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top,#172554,#020617 55%,#000);
+  color:white;
+  padding:15px;
 }
 
 .container{
-max-width:560px;
-margin:auto;
+  width:100%;
+  max-width:700px;
+  margin:auto;
 }
 
 .card{
-background:#10162eea;
-border:1px solid #ffffff18;
-border-radius:25px;
-padding:25px;
-margin:15px 0;
-box-shadow:0 0 40px #0066ff22,0 15px 50px #0009;
-backdrop-filter:blur(12px);
+  background:rgba(15,23,42,.92);
+  border:1px solid #334155;
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
 }
 
-.brand{
-text-align:center;
-font-size:13px;
-font-weight:bold;
-letter-spacing:6px;
-color:#c084fc;
-text-shadow:0 0 15px #a855f7;
+.logo{
+  text-align:center;
+  font-size:34px;
+  font-weight:900;
+  margin-bottom:5px;
 }
 
-h1{
-text-align:center;
-font-size:32px;
-color:#67e8f9;
-text-shadow:0 0 18px #06b6d4;
-margin:12px 0;
-}
-
-.subtitle{
-text-align:center;
-color:#aeb8d8;
-line-height:1.6;
-}
-
-.menu{
-display:grid;
-gap:13px;
-margin-top:25px;
+.sub{
+  text-align:center;
+  color:#94a3b8;
+  margin-bottom:20px;
 }
 
 button{
-width:100%;
-padding:16px;
-border:0;
-border-radius:15px;
-font-size:16px;
-font-weight:bold;
-color:white;
-background:#273257;
-cursor:pointer;
-transition:.2s;
+  width:100%;
+  border:none;
+  border-radius:14px;
+  padding:14px;
+  margin:7px 0;
+  color:white;
+  background:#1e293b;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
 }
 
 button:hover{
-transform:translateY(-2px);
-background:#394a7d;
-box-shadow:0 0 18px #38bdf855;
+  transform:translateY(-2px);
+  filter:brightness(1.2);
 }
 
 .primary{
-background:linear-gradient(90deg,#06b6d4,#8b5cf6);
-box-shadow:0 0 20px #06b6d455;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+.green{
+  background:#15803d;
+}
+
+.orange{
+  background:#c2410c;
+}
+
+.red{
+  background:#b91c1c;
+}
+
+.gold{
+  background:#a16207;
 }
 
 .stats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:15px;
 }
 
 .stat{
-background:#20294c;
-padding:12px 5px;
-border-radius:13px;
-text-align:center;
-font-weight:bold;
+  background:#0f172a;
+  border:1px solid #334155;
+  padding:10px 5px;
+  border-radius:13px;
+  text-align:center;
 }
 
-#question{
-font-size:20px;
-line-height:1.5;
-text-align:center;
-margin:30px 5px;
+.stat b{
+  display:block;
+  font-size:18px;
 }
 
-.answers{
-display:grid;
-gap:11px;
-}
-
-#message{
-text-align:center;
-min-height:25px;
-margin:20px 0;
-font-weight:bold;
-}
-
-.result{
-text-align:center;
-}
-
-.bigscore{
-font-size:55px;
-font-weight:bold;
-color:#67e8f9;
-text-shadow:0 0 20px #06b6d4;
-margin:20px;
+.stat span{
+  color:#94a3b8;
+  font-size:11px;
 }
 
 .progress{
-height:8px;
-background:#252d4c;
-border-radius:10px;
-margin:20px 0;
-overflow:hidden;
+  height:10px;
+  background:#1e293b;
+  border-radius:20px;
+  overflow:hidden;
+  margin:10px 0 20px;
 }
 
-.progressbar{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#06b6d4,#a855f7);
-transition:.3s;
+.progress div{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#22c55e,#06b6d4);
+  transition:.3s;
+}
+
+.question{
+  font-size:22px;
+  font-weight:bold;
+  line-height:1.4;
+  margin-bottom:18px;
+}
+
+.answer{
+  text-align:left;
+  position:relative;
+  overflow:hidden;
+}
+
+.answer.correct{
+  background:#166534;
+  border:2px solid #22c55e;
+}
+
+.answer.wrong{
+  background:#991b1b;
+  border:2px solid #ef4444;
+}
+
+.answer.disabled{
+  opacity:.3;
+  pointer-events:none;
+}
+
+.badge{
+  display:inline-block;
+  padding:7px 12px;
+  border-radius:20px;
+  background:#312e81;
+  color:#c4b5fd;
+  font-weight:bold;
+  font-size:13px;
+  margin-bottom:12px;
+}
+
+.coins{
+  color:#facc15;
 }
 
 .hidden{
-display:none;
+  display:none!important;
+}
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.menu-grid button{
+  margin:0;
+}
+
+.mission{
+  background:#0f172a;
+  border:1px solid #334155;
+  border-radius:15px;
+  padding:14px;
+  margin:9px 0;
+}
+
+.mission-title{
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.mission small{
+  color:#94a3b8;
+}
+
+.mission-bar{
+  height:7px;
+  background:#1e293b;
+  border-radius:10px;
+  margin:10px 0;
+  overflow:hidden;
+}
+
+.mission-bar div{
+  height:100%;
+  background:#22c55e;
+}
+
+.shop-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  background:#0f172a;
+  border:1px solid #334155;
+  padding:14px;
+  border-radius:15px;
+  margin:8px 0;
+}
+
+.shop-item button{
+  width:auto;
+  min-width:110px;
+  margin:0;
+  padding:10px;
+}
+
+.level{
+  text-align:center;
+  padding:15px;
+  background:linear-gradient(135deg,#172554,#312e81);
+  border-radius:17px;
+  margin-bottom:15px;
+}
+
+.level-number{
+  font-size:40px;
+  font-weight:900;
+}
+
+.xpbar{
+  height:9px;
+  background:#020617;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.xpbar div{
+  height:100%;
+  background:#facc15;
+}
+
+.event{
+  padding:16px;
+  border-radius:17px;
+  background:
+    linear-gradient(135deg,#7c2d12,#451a03);
+  border:1px solid #fb923c;
+  margin-bottom:15px;
+}
+
+.event h3{
+  margin-bottom:7px;
+}
+
+.event p{
+  color:#fed7aa;
+}
+
+.result-score{
+  text-align:center;
+  font-size:48px;
+  font-weight:900;
+  margin:15px 0;
+  color:#facc15;
+}
+
+.center{
+  text-align:center;
 }
 
 .info{
-color:#b9c2dd;
-line-height:1.7;
-font-size:14px;
+  color:#94a3b8;
+  line-height:1.6;
 }
 
-.info h2{
-color:#67e8f9;
+hr{
+  border:none;
+  border-top:1px solid #334155;
+  margin:15px 0;
+}
+
+@media(max-width:500px){
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .question{
+    font-size:19px;
+  }
+
+  .logo{
+    font-size:28px;
+  }
 }
 </style>
 </head>
@@ -169,468 +319,1179 @@ color:#67e8f9;
 
 <div class="container">
 
-<!-- BERANDA -->
+<!-- HOME -->
 <div id="home" class="card">
+  <div class="logo">🧠 MOH SYAHRIL</div>
+  <div class="sub">QUIZ TEKA-TEKI & EVENT</div>
 
-<div class="brand">MOH SYAHRIL</div>
+  <div class="level">
+    <div>LEVEL</div>
+    <div class="level-number" id="homeLevel">1</div>
+    <div>⭐ <span id="homeXP">0</span> XP</div>
+    <div class="xpbar">
+      <div id="homeXPBar"></div>
+    </div>
+  </div>
 
-<h1>🧠 QUIZ TEKA-TEKI</h1>
+  <div class="event">
+    <h3>🎉 EVENT AKTIF</h3>
+    <p>🔥 Event "Pemburu Koin" sedang berlangsung!</p>
+    <p>Jawab soal dan selesaikan misi untuk mendapatkan koin.</p>
+  </div>
 
-<p class="subtitle">
-Selamat datang di game teka-teki!<br>
-Uji pengetahuan, kecepatan, dan logikamu.
-</p>
+  <button class="primary" onclick="startGame()">🎮 MULAI BERMAIN</button>
 
-<div class="menu">
+  <div class="menu-grid">
+    <button onclick="showPage('missions')">🎯 MISI</button>
+    <button onclick="showPage('shop')">🛒 TOKO</button>
+    <button onclick="showPage('stats')">📊 STATISTIK</button>
+    <button onclick="showPage('event')">🎉 EVENT</button>
+  </div>
 
-<button class="primary" onclick="mulaiGame()">
-🎮 MULAI BERMAIN
-</button>
-
-<button onclick="caraMain()">
-📖 CARA BERMAIN
-</button>
-
+  <button onclick="showPage('how')">📖 CARA BERMAIN</button>
 </div>
 
-</div>
 
 <!-- GAME -->
 <div id="game" class="card hidden">
 
-<div class="brand">MOH SYAHRIL</div>
+  <div class="stats">
+    <div class="stat">
+      <b id="score">0</b>
+      <span>SKOR</span>
+    </div>
 
-<div class="stats">
-<div class="stat">
-⭐ <span id="score">0</span>
+    <div class="stat">
+      <b id="life">❤️❤️❤️</b>
+      <span>NYAWA</span>
+    </div>
+
+    <div class="stat">
+      <b id="timer">15</b>
+      <span>DETIK</span>
+    </div>
+
+    <div class="stat">
+      <b>🔥 <span id="combo">0</span></b>
+      <span>COMBO</span>
+    </div>
+  </div>
+
+  <div>
+    Soal <b id="questionNumber">1</b>/20
+  </div>
+
+  <div class="progress">
+    <div id="progressBar"></div>
+  </div>
+
+  <div id="bonusLabel" class="badge hidden">
+    🎁 SOAL BONUS +20
+  </div>
+
+  <div id="question" class="question"></div>
+
+  <div id="answers"></div>
+
+  <hr>
+
+  <div class="menu-grid">
+    <button class="gold" onclick="useFifty()">💡 50:50</button>
+    <button class="orange" onclick="useSkip()">🔄 Ganti Soal</button>
+  </div>
+
+  <button onclick="showPage('shopFromGame')">🛒 Buka Toko</button>
 </div>
 
-<div class="stat">
-❤️ <span id="life">3</span>
+
+<!-- RESULT -->
+<div id="result" class="card hidden center">
+  <div class="logo">🏆 SELESAI!</div>
+
+  <div class="result-score" id="finalScore">0</div>
+
+  <p>Skor akhir</p>
+
+  <hr>
+
+  <p>✅ Benar: <b id="finalCorrect">0</b></p>
+  <p>🔥 Combo terbaik: <b id="finalCombo">0</b></p>
+  <p>🪙 Koin didapat: <b id="finalCoins">0</b></p>
+  <p>⭐ XP didapat: <b id="finalXP">0</b></p>
+
+  <br>
+
+  <button class="primary" onclick="startGame()">🔄 MAIN LAGI</button>
+  <button onclick="showPage('home')">🏠 BERANDA</button>
 </div>
 
-<div class="stat">
-⏱️ <span id="time">15</span>
-</div>
-</div>
 
-<div class="progress">
-<div id="progressbar" class="progressbar"></div>
-</div>
+<!-- MISSIONS -->
+<div id="missions" class="card hidden">
+  <div class="logo">🎯 MISI</div>
+  <div class="sub">Selesaikan misi untuk mendapatkan koin.</div>
 
-<div style="text-align:center;color:#aeb8d8;font-size:13px">
-Pertanyaan <span id="nomor">1</span> dari <span id="total">20</span>
+  <div id="missionList"></div>
+
+  <button onclick="showPage('home')">🏠 KEMBALI</button>
 </div>
 
-<div id="question"></div>
 
-<div id="answers" class="answers"></div>
+<!-- SHOP -->
+<div id="shop" class="card hidden">
+  <div class="logo">🛒 TOKO</div>
+  <div class="sub">
+    Saldo: <span class="coins">🪙 <b id="shopCoins">0</b></span>
+  </div>
 
-<div id="message"></div>
+  <div class="shop-item">
+    <div>
+      <b>💡 50:50</b>
+      <br>
+      <small>Hilangkan 2 jawaban salah.</small>
+    </div>
+    <button class="gold" onclick="buyItem('fifty')">🪙 30</button>
+  </div>
 
-<button id="next" class="primary hidden" onclick="nextQuestion()">
-SOAL BERIKUTNYA ➜
-</button>
+  <div class="shop-item">
+    <div>
+      <b>🔄 Ganti Soal</b>
+      <br>
+      <small>Lewati soal tanpa kehilangan nyawa.</small>
+    </div>
+    <button class="orange" onclick="buyItem('skip')">🪙 40</button>
+  </div>
+
+  <div class="shop-item">
+    <div>
+      <b>❤️ Tambah Nyawa</b>
+      <br>
+      <small>Mendapatkan 1 nyawa tambahan.</small>
+    </div>
+    <button class="green" onclick="buyItem('life')">🪙 50</button>
+  </div>
+
+  <div class="shop-item">
+    <div>
+      <b>⏱️ Tambah Waktu</b>
+      <br>
+      <small>Tambah 10 detik saat bermain.</small>
+    </div>
+    <button class="primary" onclick="buyItem('time')">🪙 35</button>
+  </div>
+
+  <button onclick="showPage('home')">🏠 KEMBALI</button>
+</div>
+
+
+<!-- EVENT -->
+<div id="event" class="card hidden">
+  <div class="logo">🎉 EVENT</div>
+
+  <div class="event">
+    <h3>🔥 PEMBURU KOIN</h3>
+    <p>Event aktif sepanjang permainan.</p>
+    <br>
+    <p>🎯 Jawab benar = +5 koin</p>
+    <p>🔥 Combo 3+ = bonus koin</p>
+    <p>🎁 Soal bonus = hadiah lebih besar</p>
+    <p>🏆 Selesaikan misi = hadiah koin</p>
+  </div>
+
+  <div class="mission">
+    <b>🌟 TARGET EVENT</b>
+    <p class="info">
+      Kumpulkan sebanyak mungkin koin dengan menjawab soal
+      dan menyelesaikan berbagai misi.
+    </p>
+  </div>
+
+  <button onclick="showPage('missions')">🎯 LIHAT MISI</button>
+  <button onclick="showPage('shop')">🛒 BUKA TOKO</button>
+  <button onclick="showPage('home')">🏠 KEMBALI</button>
+</div>
+
+
+<!-- STATS -->
+<div id="stats" class="card hidden">
+  <div class="logo">📊 STATISTIK</div>
+
+  <div class="mission">
+    <b>🏆 Skor Terbaik</b>
+    <h2 id="bestScore">0</h2>
+  </div>
+
+  <div class="mission">
+    <b>🎮 Total Permainan</b>
+    <h2 id="totalGames">0</h2>
+  </div>
+
+  <div class="mission">
+    <b>✅ Total Jawaban Benar</b>
+    <h2 id="totalCorrect">0</h2>
+  </div>
+
+  <div class="mission">
+    <b>🔥 Combo Terbaik</b>
+    <h2 id="bestCombo">0</h2>
+  </div>
+
+  <div class="mission">
+    <b>🪙 Total Koin</b>
+    <h2 id="totalCoins">0</h2>
+  </div>
+
+  <div class="mission">
+    <b>⭐ Level</b>
+    <h2 id="statsLevel">1</h2>
+  </div>
+
+  <hr>
+
+  <button class="red" onclick="resetData()">🗑️ RESET SEMUA DATA</button>
+  <button onclick="showPage('home')">🏠 KEMBALI</button>
+</div>
+
+
+<!-- HOW -->
+<div id="how" class="card hidden">
+  <div class="logo">📖 CARA BERMAIN</div>
+
+  <div class="info">
+    <p>🎮 Jawab pertanyaan dengan memilih salah satu jawaban.</p>
+    <br>
+    <p>✅ Semua soal pada versi ini memiliki jawaban benar di pilihan <b>A</b>.</p>
+    <br>
+    <p>❤️ Kamu memiliki 3 nyawa.</p>
+    <br>
+    <p>⏱️ Setiap soal memiliki waktu 15 detik.</p>
+    <br>
+    <p>🔥 Jawaban benar berturut-turut menghasilkan combo.</p>
+    <br>
+    <p>🪙 Koin dapat digunakan untuk membeli bantuan.</p>
+    <br>
+    <p>🎯 Selesaikan misi untuk mendapatkan hadiah.</p>
+    <br>
+    <p>⭐ XP digunakan untuk menaikkan level.</p>
+    <br>
+    <p>💾 Progress otomatis disimpan di perangkat.</p>
+  </div>
+
+  <button onclick="showPage('home')">🏠 KEMBALI</button>
+</div>
 
 </div>
 
-<!-- HASIL -->
-<div id="result" class="card hidden result">
-
-<div class="brand">MOH SYAHRIL</div>
-
-<h1>🏆 HASIL QUIZ</h1>
-
-<p>Skor kamu:</p>
-
-<div id="finalScore" class="bigscore">0</div>
-
-<p id="resultText"></p>
-
-<button class="primary" onclick="mulaiGame()">
-🔄 MAIN LAGI
-</button>
-
-<br><br>
-
-<button onclick="keBeranda()">
-🏠 KEMBALI KE BERANDA
-</button>
-
-</div>
-
-<!-- CARA BERMAIN -->
-<div id="cara" class="card hidden info">
-
-<h1>📖 CARA BERMAIN</h1>
-
-<p>1. Tekan tombol <b>Mulai Bermain</b>.</p>
-
-<p>2. Akan muncul banyak pertanyaan teka-teki.</p>
-
-<p>3. Pilih satu jawaban yang menurut kamu benar.</p>
-
-<p>4. Setiap jawaban benar mendapatkan
-<b>10 poin</b>.</p>
-
-<p>5. Kamu memiliki <b>3 nyawa</b>.</p>
-
-<p>6. Setiap pertanyaan mempunyai waktu
-<b>15 detik</b>.</p>
-
-<p>7. Setelah semua pertanyaan selesai, kamu bisa melihat
-<b>skor akhir</b>.</p>
-
-<button class="primary" onclick="keBeranda()">
-🏠 KEMBALI
-</button>
-
-</div>
-
-</div>
 
 <script>
 
-const soal=[
+/* =========================
+   DATA SOAL
+========================= */
+
+const questions = [
 
 {
-q:"Aku punya tangan tetapi tidak bisa memegang. Aku apa?",
-a:["Jam","Kursi","Pohon","Buku"],
-c:0
+ q:"Apa ibu kota Indonesia?",
+ a:["Jakarta","Bandung","Surabaya","Medan"]
 },
 
 {
-q:"Semakin diisi semakin ringan. Aku apa?",
-a:["Balon","Batu","Tas","Meja"],
-c:0
+ q:"Planet yang dikenal sebagai Planet Merah adalah?",
+ a:["Mars","Venus","Jupiter","Saturnus"]
 },
 
 {
-q:"Aku punya gigi tetapi tidak bisa menggigit. Aku apa?",
-a:["Sisir","Kucing","Ikan","Buku"],
-c:0
+ q:"Berapa jumlah hari dalam satu minggu?",
+ a:["7","5","10","12"]
 },
 
 {
-q:"Apa yang selalu naik tetapi tidak pernah turun?",
-a:["Umur","Hujan","Mobil","Tangga"],
-c:0
+ q:"Hewan yang dikenal sebagai raja hutan adalah?",
+ a:["Singa","Kucing","Kuda","Kelinci"]
 },
 
 {
-q:"Aku bisa berjalan tanpa kaki dan menangis tanpa mata. Aku apa?",
-a:["Awan","Meja","Buku","Kursi"],
-c:0
+ q:"Berapa hasil dari 5 + 5?",
+ a:["10","15","20","25"]
 },
 
 {
-q:"Apa yang mempunyai leher tetapi tidak mempunyai kepala?",
-a:["Botol","Meja","Sepatu","Piring"],
-c:0
+ q:"Air membeku pada suhu?",
+ a:["0°C","10°C","50°C","100°C"]
 },
 
 {
-q:"Aku memiliki banyak kunci tetapi tidak bisa membuka pintu. Aku apa?",
-a:["Piano","Rumah","Mobil","Lemari"],
-c:0
+ q:"Alat untuk mengukur suhu disebut?",
+ a:["Termometer","Barometer","Mikroskop","Kompas"]
 },
 
 {
-q:"Apa yang bisa pecah walaupun tidak disentuh?",
-a:["Janji","Batu","Pohon","Air"],
-c:0
+ q:"Organ tubuh yang digunakan untuk bernapas adalah?",
+ a:["Paru-paru","Lambung","Jantung","Ginjal"]
 },
 
 {
-q:"Makin dipotong makin panjang. Aku apa?",
-a:["Jalan","Buku","Gelas","Bola"],
-c:0
+ q:"Warna hasil campuran merah dan putih adalah?",
+ a:["Merah muda","Hijau","Biru","Hitam"]
 },
 
 {
-q:"Aku putih saat kotor dan hitam saat bersih. Aku apa?",
-a:["Papan tulis","Baju","Sepatu","Kertas"],
-c:0
+ q:"Benua terbesar di dunia adalah?",
+ a:["Asia","Afrika","Eropa","Australia"]
 },
 
 {
-q:"Apa yang memiliki mata tetapi tidak bisa melihat?",
-a:["Jarum","Kucing","Burung","Manusia"],
-c:0
+ q:"Bahasa resmi Indonesia adalah?",
+ a:["Bahasa Indonesia","Bahasa Jawa","Bahasa Inggris","Bahasa Sunda"]
 },
 
 {
-q:"Apa yang semakin banyak diambil justru semakin besar?",
-a:["Lubang","Batu","Air","Pasir"],
-c:0
+ q:"Berapa jumlah bulan dalam satu tahun?",
+ a:["12","10","8","15"]
 },
 
 {
-q:"Apa yang punya kepala dan ekor tetapi tidak punya badan?",
-a:["Koin","Ular","Ikan","Pensil"],
-c:0
+ q:"Matahari terbit dari arah?",
+ a:["Timur","Barat","Utara","Selatan"]
 },
 
 {
-q:"Aku bisa terbang tanpa sayap. Aku bisa menangis tanpa mata. Aku apa?",
-a:["Awan","Batu","Meja","Sepatu"],
-c:0
+ q:"Hewan yang menghasilkan susu adalah?",
+ a:["Sapi","Ayam","Ikan","Ular"]
 },
 
 {
-q:"Apa yang selalu ada di depan kita tetapi tidak bisa dilihat?",
-a:["Masa depan","Masa lalu","Bayangan","Angin"],
-c:0
+ q:"Alat yang digunakan untuk melihat benda sangat kecil adalah?",
+ a:["Mikroskop","Teleskop","Kompas","Termometer"]
 },
 
 {
-q:"Apa yang bisa mengisi ruangan tetapi tidak membutuhkan tempat?",
-a:["Cahaya","Meja","Kursi","Buku"],
-c:0
+ q:"Berapa hasil dari 10 × 2?",
+ a:["20","12","15","30"]
 },
 
 {
-q:"Aku punya banyak halaman tetapi bukan buku. Aku apa?",
-a:["Website","Pintu","Rumah","Sepatu"],
-c:0
+ q:"Simbol kimia untuk air adalah?",
+ a:["H₂O","CO₂","O₂","NaCl"]
 },
 
 {
-q:"Apa yang memiliki empat kaki tetapi tidak bisa berjalan?",
-a:["Meja","Kucing","Burung","Ikan"],
-c:0
-},
-
-/* SOAL KHUSUS NAMA */
-{
-q:"Siapa yang paling cocok menjadi nama karakter utama dalam game teka-teki ini?",
-a:["Ulfa","Anggi","Dinda","Sri","Mia","Pita","Arumi"],
-c:6
+ q:"Gunung tertinggi di dunia adalah?",
+ a:["Everest","Merapi","Fuji","Krakatau"]
 },
 
 {
-q:"Apa yang digunakan untuk mengetik huruf di komputer?",
-a:["Keyboard","Monitor","Speaker","Mouse"],
-c:0
+ q:"Sumber energi utama bagi bumi adalah?",
+ a:["Matahari","Bulan","Angin","Batu"]
+},
+
+{
+ q:"Benda yang digunakan untuk menghapus tulisan pensil adalah?",
+ a:["Penghapus","Penggaris","Spidol","Pensil"]
 }
 
 ];
 
-let nomor=0;
-let skor=0;
-let nyawa=3;
-let waktu=15;
-let timer=null;
-let sudahJawab=false;
 
-document.getElementById("total").textContent=soal.length;
+/* =========================
+   DATA GAME
+========================= */
 
-function sembunyikanSemua(){
+let game = {
+  current:0,
+  score:0,
+  life:3,
+  time:15,
+  combo:0,
+  bestCombo:0,
+  correct:0,
+  coins:0,
+  xp:0,
+  usedFifty:false,
+  usedSkip:false,
+  timer:null
+};
 
-document.getElementById("home").classList.add("hidden");
-document.getElementById("game").classList.add("hidden");
-document.getElementById("result").classList.add("hidden");
-document.getElementById("cara").classList.add("hidden");
+
+/* =========================
+   DATA PLAYER
+========================= */
+
+let data = JSON.parse(
+  localStorage.getItem("mohSyahrilQuiz")
+) || {
+
+  coins:100,
+  xp:0,
+  level:1,
+
+  bestScore:0,
+  totalGames:0,
+  totalCorrect:0,
+  bestCombo:0,
+
+  missions:{
+    correct:0,
+    coins:0,
+    games:0
+  },
+
+  completed:{
+    correct:false,
+    coins:false,
+    games:false
+  }
+};
+
+
+/* =========================
+   SIMPAN DATA
+========================= */
+
+function saveData(){
+  localStorage.setItem(
+    "mohSyahrilQuiz",
+    JSON.stringify(data)
+  );
+}
+
+
+/* =========================
+   LEVEL
+========================= */
+
+function calculateLevel(){
+
+  let level =
+    Math.floor(data.xp / 100) + 1;
+
+  data.level = level;
+
+  saveData();
+
+  updateHome();
+}
+
+
+/* =========================
+   UPDATE HOME
+========================= */
+
+function updateHome(){
+
+  document.getElementById("homeLevel").textContent =
+    data.level;
+
+  document.getElementById("homeXP").textContent =
+    data.xp;
+
+  let xpProgress =
+    data.xp % 100;
+
+  document.getElementById("homeXPBar").style.width =
+    xpProgress + "%";
+}
+
+
+/* =========================
+   PAGE
+========================= */
+
+function hideAll(){
+
+  [
+    "home",
+    "game",
+    "result",
+    "missions",
+    "shop",
+    "event",
+    "stats",
+    "how"
+  ].forEach(id=>{
+    document.getElementById(id)
+      .classList.add("hidden");
+  });
 
 }
 
-function keBeranda(){
 
-clearInterval(timer);
+function showPage(page){
 
-sembunyikanSemua();
+  hideAll();
 
-document.getElementById("home").classList.remove("hidden");
+  if(page === "shopFromGame"){
+    document.getElementById("shop")
+      .classList.remove("hidden");
+    updateShop();
+    return;
+  }
 
+  document.getElementById(page)
+    .classList.remove("hidden");
+
+  if(page === "missions")
+    updateMissions();
+
+  if(page === "shop")
+    updateShop();
+
+  if(page === "stats")
+    updateStats();
+
+  if(page === "home")
+    updateHome();
 }
 
-function caraMain(){
 
-sembunyikanSemua();
+/* =========================
+   START GAME
+========================= */
 
-document.getElementById("cara").classList.remove("hidden");
+function startGame(){
 
+  clearInterval(game.timer);
+
+  game = {
+    current:0,
+    score:0,
+    life:3,
+    time:15,
+    combo:0,
+    bestCombo:0,
+    correct:0,
+    coins:0,
+    xp:0,
+    usedFifty:false,
+    usedSkip:false,
+    timer:null
+  };
+
+  hideAll();
+
+  document.getElementById("game")
+    .classList.remove("hidden");
+
+  loadQuestion();
 }
 
-function mulaiGame(){
 
-clearInterval(timer);
+/* =========================
+   LOAD SOAL
+========================= */
 
-nomor=0;
-skor=0;
-nyawa=3;
+function loadQuestion(){
 
-document.getElementById("score").textContent=0;
-document.getElementById("life").textContent=3;
+  clearInterval(game.timer);
 
-sembunyikanSemua();
+  if(game.current >= questions.length){
+    endGame();
+    return;
+  }
 
-document.getElementById("game").classList.remove("hidden");
+  game.time = 15;
 
-tampilSoal();
+  document.getElementById("questionNumber")
+    .textContent = game.current + 1;
 
+  document.getElementById("progressBar")
+    .style.width =
+    ((game.current + 1) / questions.length * 100) + "%";
+
+  document.getElementById("question")
+    .textContent =
+    questions[game.current].q;
+
+  let bonus =
+    game.current === 9;
+
+  document.getElementById("bonusLabel")
+    .classList.toggle("hidden",!bonus);
+
+  let answers =
+    document.getElementById("answers");
+
+  answers.innerHTML = "";
+
+  questions[game.current].a.forEach(
+    (answer,index)=>{
+
+      let btn =
+        document.createElement("button");
+
+      btn.className = "answer";
+
+      btn.textContent =
+        String.fromCharCode(65+index)
+        + ". "
+        + answer;
+
+      btn.onclick =
+        ()=>checkAnswer(index,btn);
+
+      answers.appendChild(btn);
+    }
+  );
+
+  updateGameUI();
+
+  startTimer();
 }
 
-function tampilSoal(){
 
-sudahJawab=false;
-waktu=15;
+/* =========================
+   TIMER
+========================= */
 
-document.getElementById("time").textContent=waktu;
-document.getElementById("nomor").textContent=nomor+1;
+function startTimer(){
 
-document.getElementById("message").textContent="";
+  game.timer =
+    setInterval(()=>{
 
-document.getElementById("next").classList.add("hidden");
+      game.time--;
 
-let persen=((nomor)/soal.length)*100;
+      updateGameUI();
 
-document.getElementById("progressbar").style.width=persen+"%";
+      if(game.time <= 0){
 
-document.getElementById("question").textContent=soal[nomor].q;
+        clearInterval(game.timer);
 
-let box=document.getElementById("answers");
+        wrongAnswer();
+      }
 
-box.innerHTML="";
-
-soal[nomor].a.forEach((jawaban,index)=>{
-
-let btn=document.createElement("button");
-
-btn.textContent=jawaban;
-
-btn.onclick=()=>jawab(index);
-
-box.appendChild(btn);
-
-});
-
-clearInterval(timer);
-
-timer=setInterval(()=>{
-
-waktu--;
-
-document.getElementById("time").textContent=waktu;
-
-if(waktu<=0){
-
-clearInterval(timer);
-
-if(!sudahJawab){
-
-jawab(-1);
-
+    },1000);
 }
 
+
+/* =========================
+   CHECK ANSWER
+========================= */
+
+function checkAnswer(index,button){
+
+  clearInterval(game.timer);
+
+  let all =
+    document.querySelectorAll(".answer");
+
+  all.forEach(b=>{
+    b.disabled = true;
+  });
+
+  if(index === 0){
+
+    button.classList.add("correct");
+
+    correctAnswer();
+
+  }else{
+
+    button.classList.add("wrong");
+
+    all[0].classList.add("correct");
+
+    wrongAnswer();
+  }
 }
 
-},1000);
 
+/* =========================
+   BENAR
+========================= */
+
+function correctAnswer(){
+
+  game.correct++;
+
+  game.combo++;
+
+  if(game.combo > game.bestCombo)
+    game.bestCombo = game.combo;
+
+  let points =
+    game.current === 9 ? 20 : 10;
+
+  if(game.combo >= 3)
+    points += 5;
+
+  game.score += points;
+
+  let coinReward = 5;
+
+  if(game.combo >= 3)
+    coinReward += 2;
+
+  if(game.current === 9)
+    coinReward += 10;
+
+  game.coins += coinReward;
+
+  game.xp += 10;
+
+  data.totalCorrect++;
+
+  data.missions.correct++;
+
+  data.missions.coins += coinReward;
+
+  data.xp += 10;
+
+  calculateLevel();
+
+  saveData();
+
+  updateGameUI();
+
+  setTimeout(nextQuestion,700);
 }
 
-function jawab(pilihan){
 
-if(sudahJawab)return;
+/* =========================
+   SALAH
+========================= */
 
-sudahJawab=true;
+function wrongAnswer(){
 
-clearInterval(timer);
+  game.combo = 0;
 
-let benar=soal[nomor].c;
+  game.life--;
 
-document.querySelectorAll("#answers button")
-.forEach(btn=>btn.disabled=true);
+  updateGameUI();
 
-if(pilihan===benar){
+  if(game.life <= 0){
 
-skor+=10;
+    setTimeout(endGame,700);
 
-document.getElementById("score").textContent=skor;
+  }else{
 
-document.getElementById("message").textContent=
-"✅ BENAR! +10 POIN";
-
-document.getElementById("message").style.color="#67f7a5";
-
-}else{
-
-nyawa--;
-
-document.getElementById("life").textContent=nyawa;
-
-document.getElementById("message").textContent=
-"❌ SALAH! Jawaban: "+soal[nomor].a[benar];
-
-document.getElementById("message").style.color="#ff7070";
-
+    setTimeout(nextQuestion,900);
+  }
 }
 
-document.getElementById("next").classList.remove("hidden");
 
-}
+/* =========================
+   NEXT
+========================= */
 
 function nextQuestion(){
 
-nomor++;
+  game.current++;
 
-if(nomor>=soal.length){
-
-selesaiGame();
-
-}else{
-
-tampilSoal();
-
+  loadQuestion();
 }
 
+
+/* =========================
+   50:50
+========================= */
+
+function useFifty(){
+
+  if(game.usedFifty){
+    alert("Bantuan 50:50 sudah digunakan.");
+    return;
+  }
+
+  game.usedFifty = true;
+
+  let buttons =
+    document.querySelectorAll(".answer");
+
+  let removed = 0;
+
+  for(let i=1;i<buttons.length;i++){
+
+    if(removed < 2){
+
+      buttons[i]
+        .classList.add("disabled");
+
+      removed++;
+    }
+  }
 }
 
-function selesaiGame(){
 
-clearInterval(timer);
+/* =========================
+   SKIP
+========================= */
 
-document.getElementById("game").classList.add("hidden");
+function useSkip(){
 
-document.getElementById("result").classList.remove("hidden");
+  if(game.usedSkip){
 
-document.getElementById("finalScore").textContent=skor;
+    alert("Ganti soal sudah digunakan.");
+    return;
+  }
 
-let maksimal=soal.length*10;
+  game.usedSkip = true;
 
-let persen=Math.round((skor/maksimal)*100);
+  clearInterval(game.timer);
 
-let text="";
-
-if(persen>=90){
-
-text="🔥 Luar biasa! Kamu sangat jago!";
-
-}else if(persen>=70){
-
-text="😎 Mantap! Hasil kamu bagus!";
-
-}else if(persen>=50){
-
-text="👍 Lumayan! Coba lagi untuk meningkatkan skor.";
-
-}else{
-
-text="💪 Jangan menyerah! Coba lagi.";
-
+  nextQuestion();
 }
 
-document.getElementById("resultText").innerHTML=
-text+"<br><br>Skor: <b>"+skor+
-"</b> / "+maksimal+
-"<br>Nilai: <b>"+persen+"%</b>";
 
+/* =========================
+   GAME UI
+========================= */
+
+function updateGameUI(){
+
+  document.getElementById("score")
+    .textContent = game.score;
+
+  document.getElementById("life")
+    .textContent =
+      "❤️".repeat(Math.max(0,game.life))
+      || "💀";
+
+  document.getElementById("timer")
+    .textContent = game.time;
+
+  document.getElementById("combo")
+    .textContent = game.combo;
 }
+
+
+/* =========================
+   END GAME
+========================= */
+
+function endGame(){
+
+  clearInterval(game.timer);
+
+  data.totalGames++;
+
+  data.missions.games++;
+
+  if(game.score > data.bestScore)
+    data.bestScore = game.score;
+
+  if(game.bestCombo > data.bestCombo)
+    data.bestCombo = game.bestCombo;
+
+  data.coins += game.coins;
+
+  saveData();
+
+  calculateLevel();
+
+  document.getElementById("game")
+    .classList.add("hidden");
+
+  document.getElementById("result")
+    .classList.remove("hidden");
+
+  document.getElementById("finalScore")
+    .textContent = game.score;
+
+  document.getElementById("finalCorrect")
+    .textContent = game.correct;
+
+  document.getElementById("finalCombo")
+    .textContent = game.bestCombo;
+
+  document.getElementById("finalCoins")
+    .textContent = game.coins;
+
+  document.getElementById("finalXP")
+    .textContent = game.xp;
+
+  checkMissions();
+}
+
+
+/* =========================
+   MISSIONS
+========================= */
+
+function checkMissions(){
+
+  if(data.missions.correct >= 5)
+    data.completed.correct = true;
+
+  if(data.missions.coins >= 100)
+    data.completed.coins = true;
+
+  if(data.missions.games >= 3)
+    data.completed.games = true;
+
+  saveData();
+}
+
+
+function updateMissions(){
+
+  checkMissions();
+
+  let html = "";
+
+  let missions = [
+
+    {
+      title:"🎯 Pemanasan",
+      desc:"Jawab 5 soal dengan benar.",
+      value:data.missions.correct,
+      target:5,
+      reward:50,
+      key:"correct"
+    },
+
+    {
+      title:"🪙 Pemburu Koin",
+      desc:"Dapatkan 100 koin dari permainan.",
+      value:data.missions.coins,
+      target:100,
+      reward:75,
+      key:"coins"
+    },
+
+    {
+      title:"🎮 Rajin Bermain",
+      desc:"Mainkan quiz sebanyak 3 kali.",
+      value:data.missions.games,
+      target:3,
+      reward:100,
+      key:"games"
+    }
+
+  ];
+
+  missions.forEach(m=>{
+
+    let progress =
+      Math.min(m.value,m.target);
+
+    let completed =
+      data.completed[m.key];
+
+    html += `
+      <div class="mission">
+
+        <div class="mission-title">
+          ${m.title}
+        </div>
+
+        <small>${m.desc}</small>
+
+        <div class="mission-bar">
+          <div style="width:${progress/m.target*100}%"></div>
+        </div>
+
+        <small>
+          ${progress}/${m.target}
+          • Hadiah 🪙 ${m.reward}
+        </small>
+
+        ${
+          completed
+          ?
+          `<button class="green"
+             onclick="claimMission('${m.key}',${m.reward})">
+             🎁 KLAIM HADIAH
+           </button>`
+          :
+          ""
+        }
+
+      </div>
+    `;
+  });
+
+  document.getElementById("missionList")
+    .innerHTML = html;
+}
+
+
+/* =========================
+   CLAIM MISSION
+========================= */
+
+function claimMission(key,reward){
+
+  if(!data.completed[key]){
+    alert("Misi belum selesai.");
+    return;
+  }
+
+  data.coins += reward;
+
+  data.completed[key] = "claimed";
+
+  saveData();
+
+  alert(
+    "🎉 Misi selesai!\n\n"
+    + "Kamu mendapatkan "
+    + reward
+    + " koin."
+  );
+
+  updateMissions();
+}
+
+
+/* =========================
+   SHOP
+========================= */
+
+function updateShop(){
+
+  document.getElementById("shopCoins")
+    .textContent = data.coins;
+}
+
+
+function buyItem(item){
+
+  let price = 0;
+
+  if(item === "fifty")
+    price = 30;
+
+  if(item === "skip")
+    price = 40;
+
+  if(item === "life")
+    price = 50;
+
+  if(item === "time")
+    price = 35;
+
+  if(data.coins < price){
+
+    alert("🪙 Koin kamu tidak cukup.");
+
+    return;
+  }
+
+  data.coins -= price;
+
+  saveData();
+
+  if(item === "fifty"){
+
+    game.usedFifty = false;
+
+    alert("💡 Bantuan 50:50 berhasil dibeli.");
+
+  }
+
+  if(item === "skip"){
+
+    game.usedSkip = false;
+
+    alert("🔄 Ganti soal berhasil dibeli.");
+
+  }
+
+  if(item === "life"){
+
+    if(
+      document
+      .getElementById("game")
+      .classList.contains("hidden")
+    ){
+
+      alert(
+        "❤️ Tambahan nyawa akan tersedia "
+        + "saat permainan berikutnya."
+      );
+
+    }else{
+
+      game.life++;
+
+      updateGameUI();
+
+      alert("❤️ +1 nyawa!");
+    }
+  }
+
+  if(item === "time"){
+
+    if(
+      !document
+      .getElementById("game")
+      .classList.contains("hidden")
+    ){
+
+      game.time += 10;
+
+      updateGameUI();
+
+      alert("⏱️ +10 detik!");
+
+    }else{
+
+      alert(
+        "⏱️ Bonus waktu akan digunakan "
+        + "saat bermain."
+      );
+    }
+  }
+
+  updateShop();
+}
+
+
+/* =========================
+   STATISTIK
+========================= */
+
+function updateStats(){
+
+  document.getElementById("bestScore")
+    .textContent = data.bestScore;
+
+  document.getElementById("totalGames")
+    .textContent = data.totalGames;
+
+  document.getElementById("totalCorrect")
+    .textContent = data.totalCorrect;
+
+  document.getElementById("bestCombo")
+    .textContent = data.bestCombo;
+
+  document.getElementById("totalCoins")
+    .textContent = data.coins;
+
+  document.getElementById("statsLevel")
+    .textContent = data.level;
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetData(){
+
+  let yakin =
+    confirm(
+      "⚠️ Yakin ingin menghapus semua progress?\n\n"
+      + "Koin, level, XP, statistik dan misi akan direset."
+    );
+
+  if(!yakin) return;
+
+  localStorage.removeItem("mohSyahrilQuiz");
+
+  location.reload();
+}
+
+
+/* =========================
+   START
+========================= */
+
+updateHome();
+updateShop();
 
 </script>
 
 </body>
 </html>
-EOF
-
-
