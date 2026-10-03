@@ -6,6 +6,76 @@
 <title>MOH SYAHRIL • Quiz V2</title>
 
 <style>
+/* ===== SETTINGS ===== */
+.settings-btn{
+  position:fixed;
+  right:15px;
+  top:15px;
+  width:48px;
+  height:48px;
+  padding:0;
+  margin:0;
+  border-radius:50%;
+  background:#1e293b;
+  border:1px solid #475569;
+  font-size:23px;
+  z-index:9999;
+}
+
+.settings-panel{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9998;
+  padding:20px;
+}
+
+.settings-box{
+  width:100%;
+  max-width:400px;
+  background:#0f172a;
+  border:1px solid #334155;
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 20px 70px rgba(0,0,0,.5);
+}
+
+.settings-box h2{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.setting-row{
+  background:#1e293b;
+  border-radius:14px;
+  padding:15px;
+  margin:10px 0;
+}
+
+.setting-row label{
+  display:block;
+  margin-bottom:10px;
+  font-weight:800;
+}
+
+.setting-row input[type="range"]{
+  width:100%;
+}
+
+.setting-toggle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.close-settings{
+  background:#b91c1c;
+  margin-top:12px;
+}
+
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:Arial,sans-serif;
@@ -252,6 +322,65 @@ hr{border:0;border-top:1px solid #334155;margin:16px 0}
 </head>
 
 <body>
+
+<!-- TOMBOL SETTINGS -->
+<button class="settings-btn" onclick="openSettings()">⚙️</button>
+
+<!-- PANEL SETTINGS -->
+<div id="settingsPanel" class="settings-panel hidden">
+
+  <div class="settings-box">
+
+    <h2>⚙️ Pengaturan</h2>
+
+    <div class="setting-row">
+      <div class="setting-toggle">
+        <label>🎵 Musik</label>
+
+        <button id="musicToggle"
+                onclick="toggleMusic()"
+                style="width:auto;padding:10px 18px">
+          OFF 🔇
+        </button>
+      </div>
+    </div>
+
+    <div class="setting-row">
+      <label>🔊 Volume Musik</label>
+
+      <input id="musicVolume"
+             type="range"
+             min="0"
+             max="1"
+             step="0.01"
+             value="0.5"
+             oninput="changeMusicVolume(this.value)">
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-toggle">
+        <label>🔘 Suara Tombol</label>
+
+        <button id="soundToggle"
+                onclick="toggleSound()"
+                style="width:auto;padding:10px 18px">
+          ON 🔊
+        </button>
+      </div>
+    </div>
+
+    <button class="close-settings" onclick="closeSettings()">
+      ✖️ Tutup
+    </button>
+
+  </div>
+
+</div>
+
+<!-- MUSIK -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <div class="container">
 
@@ -1989,6 +2118,371 @@ function updateShop(){
 ========================= */
 
 updateAll();
+updateAll();
+
+
+/* =========================
+   🎵 SISTEM SUARA & SETTINGS
+========================= */
+
+const bgMusic = document.getElementById("bgMusic");
+const settingsPanel = document.getElementById("settingsPanel");
+const musicToggle = document.getElementById("musicToggle");
+const soundToggle = document.getElementById("soundToggle");
+const musicVolume = document.getElementById("musicVolume");
+
+let musicOn = localStorage.getItem("musicOn") !== "false";
+let soundOn = localStorage.getItem("soundOn") !== "false";
+
+let savedVolume = localStorage.getItem("musicVolume");
+
+if(savedVolume === null){
+  savedVolume = 0.5;
+}
+
+bgMusic.volume = Number(savedVolume);
+musicVolume.value = savedVolume;
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+function openSettings(){
+
+  settingsPanel.classList.remove("hidden");
+
+  playClick();
+}
+
+
+function closeSettings(){
+
+  settingsPanel.classList.add("hidden");
+
+  playClick();
+}
+
+
+/* =========================
+   MUSIK
+========================= */
+
+function updateMusicButton(){
+
+  musicToggle.textContent =
+    musicOn ? "ON 🔊" : "OFF 🔇";
+
+  musicToggle.className =
+    musicOn ? "green" : "red";
+}
+
+
+async function toggleMusic(){
+
+  musicOn = !musicOn;
+
+  localStorage.setItem(
+    "musicOn",
+    musicOn
+  );
+
+  if(musicOn){
+
+    try{
+
+      await bgMusic.play();
+
+    }catch(e){
+
+      console.log(
+        "Musik menunggu interaksi pengguna"
+      );
+
+    }
+
+  }else{
+
+    bgMusic.pause();
+
+  }
+
+  updateMusicButton();
+
+  playClick();
+}
+
+
+/* =========================
+   VOLUME
+========================= */
+
+function changeMusicVolume(value){
+
+  bgMusic.volume =
+    Number(value);
+
+  localStorage.setItem(
+    "musicVolume",
+    value
+  );
+
+  if(Number(value) === 0){
+
+    musicOn = false;
+
+    bgMusic.pause();
+
+    localStorage.setItem(
+      "musicOn",
+      "false"
+    );
+
+  }
+
+  updateMusicButton();
+}
+
+
+/* =========================
+   SUARA TOMBOL
+========================= */
+
+function toggleSound(){
+
+  soundOn = !soundOn;
+
+  localStorage.setItem(
+    "soundOn",
+    soundOn
+  );
+
+  soundToggle.textContent =
+    soundOn ? "ON 🔊" : "OFF 🔇";
+
+  if(soundOn){
+
+    playClick();
+
+  }
+
+}
+
+
+/* =========================
+   AUDIO ENGINE
+========================= */
+
+let audioContext = null;
+
+
+function getAudioContext(){
+
+  if(!audioContext){
+
+    audioContext =
+      new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+
+  }
+
+  if(
+    audioContext.state ===
+    "suspended"
+  ){
+
+    audioContext.resume();
+
+  }
+
+  return audioContext;
+}
+
+
+function beep(
+  frequency,
+  duration,
+  type="sine",
+  volume=0.06
+){
+
+  if(!soundOn)return;
+
+  const ctx =
+    getAudioContext();
+
+  const oscillator =
+    ctx.createOscillator();
+
+  const gain =
+    ctx.createGain();
+
+  oscillator.type = type;
+
+  oscillator.frequency.value =
+    frequency;
+
+  gain.gain.setValueAtTime(
+    volume,
+    ctx.currentTime
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.001,
+    ctx.currentTime + duration
+  );
+
+  oscillator.connect(gain);
+
+  gain.connect(ctx.destination);
+
+  oscillator.start();
+
+  oscillator.stop(
+    ctx.currentTime + duration
+  );
+
+}
+
+
+/* =========================
+   KLIK
+========================= */
+
+function playClick(){
+
+  beep(
+    700,
+    0.07,
+    "square",
+    0.04
+  );
+
+}
+
+
+/* =========================
+   BENAR
+========================= */
+
+function playCorrect(){
+
+  if(!soundOn)return;
+
+  beep(
+    600,
+    0.08,
+    "sine",
+    0.07
+  );
+
+  setTimeout(()=>{
+
+    beep(
+      850,
+      0.12,
+      "sine",
+      0.07
+    );
+
+  },90);
+
+}
+
+
+/* =========================
+   SALAH
+========================= */
+
+function playWrong(){
+
+  if(!soundOn)return;
+
+  beep(
+    250,
+    0.15,
+    "sawtooth",
+    0.06
+  );
+
+  setTimeout(()=>{
+
+    beep(
+      180,
+      0.18,
+      "sawtooth",
+      0.05
+    );
+
+  },120);
+
+}
+
+
+/* =========================
+   SUARA SEMUA BUTTON
+========================= */
+
+document.addEventListener(
+  "click",
+  function(e){
+
+    const button =
+      e.target.closest("button");
+
+    if(!button)return;
+
+    if(
+      button.id !== "musicToggle" &&
+      button.id !== "soundToggle"
+    ){
+
+      playClick();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   INIT SUARA
+========================= */
+
+updateMusicButton();
+
+soundToggle.textContent =
+  soundOn
+    ? "ON 🔊"
+    : "OFF 🔇";
+
+
+/* =========================
+   MULAI MUSIK SETELAH
+   PEMAIN MENYENTUH HALAMAN
+========================= */
+
+document.addEventListener(
+  "click",
+  function(){
+
+    if(
+      musicOn &&
+      bgMusic.paused
+    ){
+
+      bgMusic.play().catch(
+        ()=>{}
+      );
+
+    }
+
+  },
+  {once:true}
+);
+
 
 </script>
 
