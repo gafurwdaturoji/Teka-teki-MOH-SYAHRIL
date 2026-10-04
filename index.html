@@ -6,6 +6,267 @@
 <title>MOH SYAHRIL • Quiz V2</title>
 
 <style>
+.crop-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+.crop-modal.hidden{
+  display:none;
+}
+
+.crop-box{
+  width:min(95vw,500px);
+  background:#171717;
+  color:white;
+  border-radius:20px;
+  padding:18px;
+  box-shadow:0 10px 40px rgba(0,0,0,.6);
+}
+
+.crop-box h3{
+  margin:0 0 15px;
+  text-align:center;
+}
+
+.crop-area{
+  width:100%;
+  height:380px;
+  background:#050505;
+  border-radius:14px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  touch-action:none;
+}
+
+#cropCanvas{
+  max-width:100%;
+  max-height:100%;
+  touch-action:none;
+  cursor:grab;
+}
+
+#cropCanvas:active{
+  cursor:grabbing;
+}
+
+.crop-controls{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:15px;
+}
+
+.crop-controls button{
+  width:44px;
+  height:44px;
+  border:0;
+  border-radius:10px;
+  background:#292929;
+  color:white;
+  font-size:22px;
+}
+
+#zoomRange{
+  flex:1;
+}
+
+.crop-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.crop-buttons button{
+  flex:1;
+  min-height:44px;
+  border:0;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+#cropCancel{
+  background:#333;
+  color:white;
+}
+
+#cropSave{
+  background:#d4af37;
+  color:#111;
+}
+
+
+.profile-cover{
+  position:relative;
+  height:280px;
+  border-radius:18px 18px 0 0;
+  background:linear-gradient(135deg,#181818,#333);
+  background-size:cover;
+  background-position:center;
+  overflow:hidden;
+}
+
+.profile-avatar-wrap{
+  position:relative;
+  width:150px;
+  height:150px;
+  margin:-75px auto 0;
+  z-index:10;
+}
+
+#profileAvatar{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  border:6px solid #fff;
+  box-shadow:0 5px 20px rgba(0,0,0,.5);
+  overflow:hidden;
+}
+
+.edit-photo{
+  position:absolute;
+  width:38px;
+  height:38px;
+  padding:0;
+  border:2px solid #fff;
+  border-radius:10px;
+  background:#151515;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  z-index:30;
+  cursor:pointer;
+}
+
+.cover-edit{
+  right:12px;
+  bottom:12px;
+}
+
+.avatar-edit{
+  right:-2px;
+  bottom:2px;
+  border-radius:50%;
+}
+
+.name-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+
+.name-row h2{
+  margin:0;
+}
+
+.name-edit{
+  width:32px;
+  height:32px;
+  border:1px solid #555;
+  border-radius:9px;
+  background:#222;
+  color:white;
+  cursor:pointer;
+  font-size:15px;
+}
+
+
+.profile-cover{
+  position:relative;
+  height:280px;
+  border-radius:18px 18px 0 0;
+  background:linear-gradient(135deg,#181818,#333);
+  background-size:cover;
+  background-position:center;
+  overflow:hidden;
+}
+
+.cover-button{
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  z-index:20;
+
+  display:block;
+  padding:10px 14px;
+
+  border:none;
+  border-radius:10px;
+
+  background:#000;
+  color:#fff;
+
+  font-size:13px;
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+
+.xp-box{
+  margin:12px 0;
+  padding:12px;
+  border-radius:14px;
+  background:#151515;
+  border:1px solid #444;
+}
+
+.xp-info{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  color:#ddd;
+  margin-bottom:7px;
+}
+
+.xp-bar{
+  width:100%;
+  height:10px;
+  background:#333;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+#xpProgress{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#00c6ff,#7c3aed);
+  transition:width .4s;
+}
+
+.rank-box{
+  margin:12px 0;
+  padding:12px;
+  text-align:center;
+  border-radius:14px;
+  background:linear-gradient(135deg,#242424,#111);
+  border:1px solid #555;
+}
+
+#playerRank{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.rank-box small{
+  color:#aaa;
+}
+
 /* ===== SETTINGS ===== */
 .settings-btn{
   position:fixed;
@@ -382,8 +643,8 @@ hr{border:0;border-top:1px solid #334155;margin:16px 0}
 }
 
 #profileAvatar{
-  width:110px;
-  height:110px;
+  width:150px;
+  height:150px;
 
   margin:auto;
 
@@ -609,6 +870,18 @@ hr{border:0;border-top:1px solid #334155;margin:16px 0}
 </head>
 
 <body>
+
+<div class="xp-box">
+  <div class="xp-info">
+    <span>XP</span>
+    <span id="xpText">0 / 100 XP</span>
+  </div>
+
+  <div class="xp-bar">
+    <div id="xpProgress"></div>
+  </div>
+</div>
+
 <!-- TOMBOL SETTINGS -->
 <button class="settings-btn" onclick="openSettings()">⚙️</button>
 
@@ -656,7 +929,7 @@ hr{border:0;border-top:1px solid #334155;margin:16px 0}
     </div>
 
     <button class="close-settings" onclick="closeSettings()">
-      ✖️ Tutup
+      TUTUP
     </button>
 
   </div>
@@ -786,37 +1059,66 @@ hr{border:0;border-top:1px solid #334155;margin:16px 0}
 <section id="profile" class="card hidden profile-card">
 
   <div class="profile-header">
-    <div class="profile-cover"></div>
 
-    <div class="profile-avatar-wrap">
-      <div class="avatar" id="profileAvatar">🎮</div>
-    </div>
+
+<div class="profile-cover" id="profileCover">
+
+  <button
+    type="button"
+    class="edit-photo cover-edit"
+    onclick="document.getElementById('coverInput').click()">
+    ✏️
+  </button>
+
+  <input
+    type="file"
+    id="coverInput"
+    accept="image/*"
+    hidden>
+
+</div>
+
+
+<div class="profile-avatar-wrap">
+
+  <div class="avatar" id="profileAvatar">
+    🎮
+  </div>
+
+  <button
+    type="button"
+    class="edit-photo avatar-edit"
+    onclick="document.getElementById('avatarInput').click()">
+    ✏️
+  </button>
+
+</div>
 
     <div class="profile-main">
-      <h2 id="profileName">Pemain</h2>
+
+<div class="name-row">
+  <h2 id="profileName">Pemain</h2>
+
+  <button
+    type="button"
+    class="name-edit"
+    onclick="changeName()">
+    ✏️
+  </button>
+</div>
 
       <div class="profile-id">
         ID <b id="profileId">00000000</b>
       </div>
 
-      <button
-        class="profile-edit"
-        onclick="changeName()">
-        ✏️ GANTI NAMA
-      </button>
 
-      <input
-        type="file"
-        id="avatarInput"
-        accept="image/*"
-        hidden
-      >
+<input
+  type="file"
+  id="avatarInput"
+  accept="image/*"
+  hidden
+>
 
-      <button
-        class="profile-edit"
-        onclick="document.getElementById('avatarInput').click()">
-        🖼️ GANTI AVATAR
-      </button>
     </div>
   </div>
 
@@ -1132,10 +1434,15 @@ hr{border:0;border-top:1px solid #334155;margin:16px 0}
     <hr>
 
     <!-- ID PEMAIN -->
-    <p>🆔 ID Pemain</p>
-    <b id="profileId">QZ-XXXXXX</b>
+<p>🆔 ID Pemain</p>
+<b id="profileId">00000000</b>
 
-    <hr>
+<hr>
+
+<div class="rank-box">
+  <div id="playerRank">BRONZE I</div>
+  <small>RANK PEMAIN</small>
+</div>
 
     <!-- LEVEL -->
     <p>⭐ Level <b id="profileLevel">1</b></p>
@@ -1261,6 +1568,47 @@ hr{border:0;border-top:1px solid #334155;margin:16px 0}
 
 <div id="toast" class="toast"></div>
 
+<div id="cropModal" class="crop-modal hidden">
+
+  <div class="crop-box">
+
+    <h3 id="cropTitle">Atur Foto</h3>
+
+    <div class="crop-area">
+      <canvas id="cropCanvas"></canvas>
+    </div>
+
+    <div class="crop-controls">
+
+      <button type="button" id="zoomOut">−</button>
+
+      <input
+        type="range"
+        id="zoomRange"
+        min="0.2"
+        max="3"
+        step="0.01"
+        value="1">
+
+      <button type="button" id="zoomIn">+</button>
+
+    </div>
+
+    <div class="crop-buttons">
+
+      <button type="button" id="cropCancel">
+        BATAL
+      </button>
+
+      <button type="button" id="cropSave">
+        ✅ SIMPAN
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
 <script>
 
@@ -1808,6 +2156,13 @@ function answerQuestion(correct,button){
   buttons.forEach(b=>{
     b.style.pointerEvents="none";
   });
+
+const exitBtn = document.querySelector(".exit-game");
+
+if(exitBtn){
+  exitBtn.style.pointerEvents = "auto";
+  exitBtn.style.zIndex = "9999";
+}
 
   if(correct){
 
@@ -2466,6 +2821,9 @@ function endGame(){
 
 function updateProfile(){
 
+document.getElementById("playerRank")
+  .textContent = getRank();
+
   document.getElementById("profileName")
     .textContent = data.name;
 
@@ -2475,8 +2833,10 @@ function updateProfile(){
   document.getElementById("profileLevel")
     .textContent = data.level;
 
-  document.getElementById("profileXP")
-    .textContent = data.xp;
+document.getElementById("profileXP")
+  .textContent = data.xp;
+
+updateXP();
 
   document.getElementById("profileCoins")
     .textContent = data.coins;
@@ -3001,39 +3361,6 @@ function loadAvatar(){
   }
 }
 
-avatarInput.addEventListener("change", function(){
-
-  const file = this.files[0];
-
-  if(!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e){
-
-    const imageData = e.target.result;
-
-    try{
-
-      localStorage.setItem(
-        "mohSyahrilAvatar",
-        imageData
-      );
-
-      loadAvatar();
-
-    }catch(error){
-
-      alert(
-        "Foto terlalu besar. Pilih foto yang lebih kecil."
-      );
-
-    }
-  };
-
-  reader.readAsDataURL(file);
-});
-
 loadAvatar();
 
 
@@ -3092,6 +3419,405 @@ function changeName(){
   alert("Nama berhasil diubah!");
 }
 
+function getRank(){
+
+  const level = data.level || 1;
+
+  if(level >= 30) return "GRANDMASTER ⭐100";
+  if(level >= 25) return "MASTER ⭐50";
+  if(level >= 20) return "DIAMOND V";
+  if(level >= 18) return "DIAMOND IV";
+  if(level >= 16) return "DIAMOND III";
+  if(level >= 14) return "DIAMOND II";
+  if(level >= 12) return "DIAMOND I";
+
+  if(level >= 10) return "GOLD V";
+  if(level >= 9) return "GOLD IV";
+  if(level >= 8) return "GOLD III";
+  if(level >= 7) return "GOLD II";
+  if(level >= 6) return "GOLD I";
+
+  if(level >= 5) return "SILVER IV";
+  if(level >= 4) return "SILVER III";
+  if(level >= 3) return "SILVER II";
+
+  return "BRONZE I";
+}
+
+function updateXP(){
+
+  const xpNeeded = data.level * 100;
+  const percent = Math.min(
+    (data.xp / xpNeeded) * 100,
+    100
+  );
+
+  document.getElementById("xpText").textContent =
+    data.xp + " / " + xpNeeded + " XP";
+
+  document.getElementById("xpProgress").style.width =
+    percent + "%";
+}
+
+const cropModal =
+  document.getElementById("cropModal");
+
+const cropCanvas =
+  document.getElementById("cropCanvas");
+
+const cropCtx =
+  cropCanvas.getContext("2d");
+
+const zoomRange =
+  document.getElementById("zoomRange");
+
+const cropTitle =
+  document.getElementById("cropTitle");
+
+let cropImage = null;
+let cropType = null;
+
+let cropZoom = 1;
+let cropX = 0;
+let cropY = 0;
+
+let dragging = false;
+let lastX = 0;
+let lastY = 0;
+
+function openCrop(file,type){
+
+  if(!file) return;
+
+  cropType = type;
+
+  cropTitle.textContent =
+    type === "cover"
+      ? "Atur Sampul"
+      : "Atur Foto Profil";
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+
+    const img = new Image();
+
+    img.onload = function(){
+
+      cropImage = img;
+
+      cropZoom = 1;
+      cropX = 0;
+      cropY = 0;
+
+      zoomRange.value = 1;
+
+      drawCrop();
+
+      cropModal.classList.remove("hidden");
+    };
+
+    img.src = e.target.result;
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function drawCrop(){
+
+  if(!cropImage) return;
+
+  const area =
+    document.querySelector(".crop-area");
+
+  const width =
+    area.clientWidth;
+
+  const height =
+    area.clientHeight;
+
+  cropCanvas.width = width;
+  cropCanvas.height = height;
+
+  cropCtx.clearRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+  const scale =
+    Math.max(
+      width / cropImage.width,
+      height / cropImage.height
+    ) * cropZoom;
+
+  const drawWidth =
+    cropImage.width * scale;
+
+  const drawHeight =
+    cropImage.height * scale;
+
+  const x =
+    (width - drawWidth) / 2 + cropX;
+
+  const y =
+    (height - drawHeight) / 2 + cropY;
+
+  cropCtx.drawImage(
+    cropImage,
+    x,
+    y,
+    drawWidth,
+    drawHeight
+  );
+}
+
+zoomRange.addEventListener(
+  "input",
+  function(){
+
+    cropZoom =
+      Number(this.value);
+
+    drawCrop();
+  }
+);
+
+document.getElementById("zoomIn")
+.addEventListener("click",function(){
+
+  cropZoom =
+    Math.min(3,cropZoom + .1);
+
+  zoomRange.value = cropZoom;
+
+  drawCrop();
+});
+
+document.getElementById("zoomOut")
+.addEventListener("click",function(){
+
+  cropZoom =
+    Math.max(.2,cropZoom - .1);
+
+  zoomRange.value = cropZoom;
+
+  drawCrop();
+});
+
+cropCanvas.addEventListener(
+  "pointerdown",
+  function(e){
+
+    dragging = true;
+
+    lastX = e.clientX;
+    lastY = e.clientY;
+
+    cropCanvas.setPointerCapture(e.pointerId);
+  }
+);
+
+cropCanvas.addEventListener(
+  "pointermove",
+  function(e){
+
+    if(!dragging) return;
+
+    cropX +=
+      e.clientX - lastX;
+
+    cropY +=
+      e.clientY - lastY;
+
+    lastX = e.clientX;
+    lastY = e.clientY;
+
+    drawCrop();
+  }
+);
+
+cropCanvas.addEventListener(
+  "pointerup",
+  function(){
+
+    dragging = false;
+  }
+);
+
+cropCanvas.addEventListener(
+  "pointercancel",
+  function(){
+
+    dragging = false;
+  }
+);
+
+document.getElementById("cropCancel")
+.addEventListener("click",function(){
+
+  cropModal.classList.add("hidden");
+
+  cropImage = null;
+});
+
+document.getElementById("cropSave")
+.addEventListener("click",function(){
+
+  if(!cropImage) return;
+
+  const output =
+    document.createElement("canvas");
+
+  const size =
+    cropType === "avatar"
+      ? 600
+      : 1200;
+
+  output.width = size;
+
+  output.height =
+    cropType === "avatar"
+      ? 600
+      : 600;
+
+  const ctx =
+    output.getContext("2d");
+
+  const area =
+    document.querySelector(".crop-area");
+
+  const scale =
+    Math.max(
+      area.clientWidth / cropImage.width,
+      area.clientHeight / cropImage.height
+    ) * cropZoom;
+
+  const drawWidth =
+    cropImage.width * scale;
+
+  const drawHeight =
+    cropImage.height * scale;
+
+  const x =
+    (area.clientWidth - drawWidth) / 2 + cropX;
+
+  const y =
+    (area.clientHeight - drawHeight) / 2 + cropY;
+
+  const sx =
+    Math.max(
+      0,
+      (-x / drawWidth) * cropImage.width
+    );
+
+  const sy =
+    Math.max(
+      0,
+      (-y / drawHeight) * cropImage.height
+    );
+
+  const sw =
+    Math.min(
+      cropImage.width - sx,
+      (area.clientWidth / drawWidth) *
+      cropImage.width
+    );
+
+  const sh =
+    Math.min(
+      cropImage.height - sy,
+      (area.clientHeight / drawHeight) *
+      cropImage.height
+    );
+
+  ctx.drawImage(
+    cropImage,
+    sx,
+    sy,
+    sw,
+    sh,
+    0,
+    0,
+    output.width,
+    output.height
+  );
+
+  const imageData =
+    output.toDataURL(
+      "image/jpeg",
+      .82
+    );
+
+  if(cropType === "cover"){
+
+    localStorage.setItem(
+      "mohSyahrilCover",
+      imageData
+    );
+
+    document.getElementById(
+      "profileCover"
+    ).style.backgroundImage =
+      `url("${imageData}")`;
+
+  }else{
+
+    localStorage.setItem(
+      "mohSyahrilAvatar",
+      imageData
+    );
+
+    const avatar =
+      document.getElementById(
+        "profileAvatar"
+      );
+
+    avatar.innerHTML = "";
+
+    avatar.style.backgroundImage =
+      `url("${imageData}")`;
+
+    avatar.style.backgroundSize =
+      "cover";
+
+    avatar.style.backgroundPosition =
+      "center";
+  }
+
+  cropModal.classList.add("hidden");
+
+  cropImage = null;
+});
+
+
+coverInput.addEventListener(
+  "change",
+  function(){
+
+    const file = this.files[0];
+
+    if(!file) return;
+
+    openCrop(file, "cover");
+
+    this.value = "";
+  }
+);
+
+avatarInput.addEventListener(
+  "change",
+  function(){
+
+    openCrop(
+      this.files[0],
+      "avatar"
+    );
+
+    this.value = "";
+  }
+);
 
 </script>
 
