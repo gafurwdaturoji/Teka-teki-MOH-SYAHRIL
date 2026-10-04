@@ -1826,6 +1826,9 @@ function answerQuestion(correct,button){
       }
     );
 
+data.totalWrong = (data.totalWrong || 0) + 1;
+save();
+
     wrongAnswer();
 
   }
@@ -2972,49 +2975,61 @@ document.addEventListener(
   // ...
 
 
-  const avatarInput = document.getElementById("avatarInput");
-  const profileAvatar = document.getElementById("profileAvatar");
+const avatarInput = document.getElementById("avatarInput");
+const profileAvatar = document.getElementById("profileAvatar");
 
-  avatarInput.addEventListener("change", function () {
+function loadAvatar(){
 
-    const file = this.files[0];
+  const savedAvatar =
+    localStorage.getItem("mohSyahrilAvatar");
 
-    if (!file) return;
+  if(savedAvatar){
 
-    const reader = new FileReader();
+    profileAvatar.innerHTML = "";
 
-    reader.onload = function(e) {
+    profileAvatar.style.backgroundImage =
+      `url("${savedAvatar}")`;
 
-      profileAvatar.innerHTML = "";
+    profileAvatar.style.backgroundSize = "cover";
+    profileAvatar.style.backgroundPosition = "center";
+    profileAvatar.style.backgroundRepeat = "no-repeat";
+  }
+}
 
-      profileAvatar.style.backgroundImage =
-        `url("${e.target.result}")`;
+avatarInput.addEventListener("change", function(){
 
-      profileAvatar.style.backgroundSize = "cover";
-      profileAvatar.style.backgroundPosition = "center";
-      profileAvatar.style.backgroundRepeat = "no-repeat";
+  const file = this.files[0];
+
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+
+    const imageData = e.target.result;
+
+    try{
 
       localStorage.setItem(
-        "playerAvatar",
-        e.target.result
+        "mohSyahrilAvatar",
+        imageData
       );
-    };
 
-    reader.readAsDataURL(file);
-  });
+      loadAvatar();
 
-const savedAvatar = localStorage.getItem("playerAvatar");
+    }catch(error){
 
-if (savedAvatar) {
-  profileAvatar.innerHTML = "";
+      alert(
+        "Foto terlalu besar. Pilih foto yang lebih kecil."
+      );
 
-  profileAvatar.style.backgroundImage =
-    `url("${savedAvatar}")`;
+    }
+  };
 
-  profileAvatar.style.backgroundSize = "cover";
-  profileAvatar.style.backgroundPosition = "center";
-  profileAvatar.style.backgroundRepeat = "no-repeat";
-}
+  reader.readAsDataURL(file);
+});
+
+loadAvatar();
 
 
 function showPage(page){
