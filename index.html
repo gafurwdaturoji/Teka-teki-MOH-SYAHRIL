@@ -318,11 +318,297 @@ hr{border:0;border-top:1px solid #334155;margin:16px 0}
   .question{font-size:19px}
   .logo{font-size:27px}
 }
+
+
+/* =========================
+   PROFILE GAME STYLE
+========================= */
+
+.profile-card{
+  padding:0;
+  overflow:hidden;
+  text-align:center;
+  background:
+    linear-gradient(
+      160deg,
+      rgba(30,30,45,.98),
+      rgba(10,10,18,.98)
+    );
+  border-radius:24px;
+}
+
+
+/* HEADER */
+
+.profile-header{
+  position:relative;
+  padding-bottom:25px;
+}
+
+.profile-cover{
+  height:120px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1b1b2d,
+      #30204d,
+      #12121d
+    );
+
+  position:relative;
+}
+
+.profile-cover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(255,255,255,.15),
+      transparent 55%
+    );
+}
+
+
+/* AVATAR */
+
+.profile-avatar-wrap{
+  position:relative;
+  margin-top:-58px;
+  z-index:2;
+}
+
+#profileAvatar{
+  width:110px;
+  height:110px;
+
+  margin:auto;
+
+  border-radius:50%;
+
+  border:5px solid #fff;
+
+  background:#20202c;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:45px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 0 0 5px rgba(255,255,255,.08),
+    0 10px 30px rgba(0,0,0,.5);
+}
+
+
+/* NAMA */
+
+.profile-main h2{
+  margin:14px 0 5px;
+  font-size:25px;
+}
+
+.profile-id{
+  opacity:.65;
+  font-size:13px;
+  margin-bottom:15px;
+}
+
+
+/* BUTTON EDIT */
+
+.profile-edit{
+  margin:4px;
+  padding:8px 14px;
+
+  border:1px solid rgba(255,255,255,.15);
+
+  border-radius:10px;
+
+  background:rgba(255,255,255,.08);
+
+  color:white;
+
+  font-size:12px;
+}
+
+
+/* LEVEL */
+
+.profile-level-box{
+  margin:0 18px 20px;
+
+  padding:15px;
+
+  border-radius:16px;
+
+  background:rgba(255,255,255,.06);
+
+  text-align:left;
+}
+
+.level-top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.xp-bar{
+  width:100%;
+  height:8px;
+
+  border-radius:20px;
+
+  background:rgba(255,255,255,.1);
+
+  overflow:hidden;
+}
+
+.xp-fill{
+  width:35%;
+  height:100%;
+
+  border-radius:20px;
+
+  background:linear-gradient(
+    90deg,
+    #8b5cf6,
+    #ec4899
+  );
+}
+
+.xp-text{
+  margin-top:7px;
+  text-align:right;
+  font-size:12px;
+  opacity:.7;
+}
+
+
+/* STAT KOTAK */
+
+.profile-stats{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:10px;
+
+  padding:0 18px 20px;
+}
+
+.stat-box{
+  padding:15px 8px;
+
+  border-radius:16px;
+
+  background:rgba(255,255,255,.06);
+
+  display:flex;
+  flex-direction:column;
+
+  align-items:center;
+}
+
+.stat-box span{
+  font-size:22px;
+}
+
+.stat-box b{
+  font-size:20px;
+  margin-top:4px;
+}
+
+.stat-box small{
+  opacity:.55;
+  font-size:10px;
+  margin-top:3px;
+}
+
+
+/* SECTION */
+
+.profile-section{
+  margin:0 18px 18px;
+
+  padding:16px;
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,.05);
+
+  text-align:left;
+}
+
+.profile-section h3{
+  margin:0 0 12px;
+  font-size:16px;
+}
+
+
+/* DETAIL STAT */
+
+.detail-stat{
+  display:flex;
+  justify-content:space-between;
+
+  padding:11px 0;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.06);
+}
+
+.detail-stat:last-child{
+  border-bottom:none;
+}
+
+.detail-stat b{
+  color:#fff;
+}
+
+
+/* ACHIEVEMENT */
+
+#profileAchievements{
+  padding:12px;
+
+  border-radius:12px;
+
+  background:rgba(255,255,255,.05);
+
+  line-height:2;
+
+  text-align:left;
+}
+
+
+/* KEMBALI */
+
+.profile-back{
+  margin:5px 18px 20px;
+
+  width:calc(100% - 36px);
+
+  padding:13px;
+
+  border:none;
+
+  border-radius:14px;
+
+  font-weight:bold;
+}
+
 </style>
 </head>
 
 <body>
-
 <!-- TOMBOL SETTINGS -->
 <button class="settings-btn" onclick="openSettings()">⚙️</button>
 
@@ -496,28 +782,145 @@ hr{border:0;border-top:1px solid #334155;margin:16px 0}
 
 
 <!-- RESULT -->
-<section id="result" class="card hidden center">
+<!-- PROFILE -->
+<section id="profile" class="card hidden profile-card">
 
-  <div class="logo">🏆 HASIL PERMAINAN</div>
+  <div class="profile-header">
+    <div class="profile-cover"></div>
 
-  <div class="resultScore" id="finalScore">0</div>
+    <div class="profile-avatar-wrap">
+      <div class="avatar" id="profileAvatar">🎮</div>
+    </div>
 
-  <p>Skor akhir</p>
+    <div class="profile-main">
+      <h2 id="profileName">Pemain</h2>
 
-  <hr>
+      <div class="profile-id">
+        ID <b id="profileId">00000000</b>
+      </div>
 
-  <p>✅ Benar: <b id="finalCorrect">0</b></p>
-  <p>🔥 Combo terbaik: <b id="finalCombo">0</b></p>
-  <p>🪙 Koin: <b id="finalCoins">0</b></p>
-  <p>⭐ XP: <b id="finalXP">0</b></p>
+      <button
+        class="profile-edit"
+        onclick="changeName()">
+        ✏️ GANTI NAMA
+      </button>
 
-  <br>
+      <input
+        type="file"
+        id="avatarInput"
+        accept="image/*"
+        hidden
+      >
 
-  <button class="primary" onclick="startGame()">🔄 MAIN LAGI</button>
-  <button onclick="showPage('home')">🏠 BERANDA</button>
+      <button
+        class="profile-edit"
+        onclick="document.getElementById('avatarInput').click()">
+        🖼️ GANTI AVATAR
+      </button>
+    </div>
+  </div>
+
+
+  <!-- LEVEL -->
+
+  <div class="profile-level-box">
+
+    <div class="level-top">
+      <span>⭐ LEVEL</span>
+      <b id="profileLevel">1</b>
+    </div>
+
+    <div class="xp-bar">
+      <div class="xp-fill"></div>
+    </div>
+
+    <div class="xp-text">
+      ✨ <b id="profileXP">0</b> XP
+    </div>
+
+  </div>
+
+
+  <!-- STAT UTAMA -->
+
+  <div class="profile-stats">
+
+    <div class="stat-box">
+      <span>🪙</span>
+      <b id="profileCoins">0</b>
+      <small>KOIN</small>
+    </div>
+
+    <div class="stat-box">
+      <span>🔥</span>
+      <b id="profileStreak">0</b>
+      <small>STREAK</small>
+    </div>
+
+    <div class="stat-box">
+      <span>🏆</span>
+      <b id="profileHighScore">0</b>
+      <small>SKOR</small>
+    </div>
+
+    <div class="stat-box">
+      <span>🎯</span>
+      <b id="profileAccuracy">0%</b>
+      <small>AKURASI</small>
+    </div>
+
+  </div>
+
+
+  <!-- STATISTIK -->
+
+  <div class="profile-section">
+
+    <h3>📊 STATISTIK PEMAIN</h3>
+
+    <div class="detail-stat">
+      <span>🎮 Total Bermain</span>
+      <b id="profileGames">0</b>
+    </div>
+
+    <div class="detail-stat">
+      <span>❓ Total Soal</span>
+      <b id="profileQuestions">0</b>
+    </div>
+
+    <div class="detail-stat">
+      <span>✅ Jawaban Benar</span>
+      <b id="profileCorrect">0</b>
+    </div>
+
+    <div class="detail-stat">
+      <span>❌ Jawaban Salah</span>
+      <b id="profileWrong">0</b>
+    </div>
+
+  </div>
+
+
+  <!-- ACHIEVEMENT -->
+
+  <div class="profile-section">
+
+    <h3>🏅 ACHIEVEMENT</h3>
+
+    <div id="profileAchievements">
+      Belum ada achievement.
+    </div>
+
+  </div>
+
+
+  <button
+    class="profile-back"
+    onclick="showPage('home')">
+    🏠 KEMBALI
+  </button>
 
 </section>
-
 
 <!-- MISSIONS -->
 <section id="missions" class="card hidden">
@@ -704,22 +1107,82 @@ hr{border:0;border-top:1px solid #334155;margin:16px 0}
   <div class="logo">👤 PROFIL</div>
 
   <div class="owner">
-    <div class="avatar">🎮</div>
 
+    <!-- AVATAR -->
+    <div class="avatar" id="profileAvatar">🎮</div>
+
+    <input
+      type="file"
+      id="avatarInput"
+      accept="image/*"
+      hidden
+    >
+
+    <button onclick="document.getElementById('avatarInput').click()">
+      🖼️ GANTI AVATAR
+    </button>
+
+    <!-- NAMA -->
     <h2 id="profileName">Pemain</h2>
 
+    <button class="primary" onclick="changeName()">
+      ✏️ GANTI NAMA
+    </button>
+
+    <hr>
+
+    <!-- ID PEMAIN -->
+    <p>🆔 ID Pemain</p>
+    <b id="profileId">QZ-XXXXXX</b>
+
+    <hr>
+
+    <!-- LEVEL -->
     <p>⭐ Level <b id="profileLevel">1</b></p>
+
+    <!-- XP -->
+    <p>✨ XP <b id="profileXP">0</b></p>
+
+    <!-- KOIN -->
     <p>🪙 <b id="profileCoins">0</b> Koin</p>
+
+    <!-- STREAK -->
     <p>🔥 Streak <b id="profileStreak">0</b> hari</p>
+
+    <!-- SKOR -->
+    <p>🏆 Skor Tertinggi <b id="profileHighScore">0</b></p>
+
+    <!-- AKURASI -->
+    <p>🎯 Akurasi <b id="profileAccuracy">0%</b></p>
+
   </div>
 
   <hr>
 
-  <button class="primary" onclick="changeName()">✏️ GANTI NAMA</button>
-  <button onclick="showPage('home')">🏠 KEMBALI</button>
+  <!-- STATISTIK -->
+  <h3>🎮 STATISTIK</h3>
+
+  <p>🎮 Total Bermain: <b id="profileGames">0</b></p>
+  <p>❓ Total Soal: <b id="profileQuestions">0</b></p>
+  <p>✅ Jawaban Benar: <b id="profileCorrect">0</b></p>
+  <p>❌ Jawaban Salah: <b id="profileWrong">0</b></p>
+
+  <hr>
+
+  <!-- ACHIEVEMENT -->
+  <h3>🏅 ACHIEVEMENT</h3>
+
+  <div id="profileAchievements">
+    Belum ada achievement.
+  </div>
+
+  <br>
+
+  <button onclick="showPage('home')">
+    🏠 KEMBALI
+  </button>
 
 </section>
-
 
 <!-- OWNER -->
 <section id="owner" class="card hidden">
@@ -1039,6 +1502,7 @@ let data = JSON.parse(
   bestScore:0,
   totalGames:0,
   totalCorrect:0,
+  totalWrong:0,  
   bestCombo:0,
 
   streak:0,
@@ -1071,7 +1535,12 @@ function save(){
   );
 }
 
+if (!data.id) {
+  data.id =
+    Math.floor(10000000 + Math.random() * 90000000).toString();
 
+  save();
+}
 /* =========================
    GAME STATE
 ========================= */
@@ -1990,45 +2459,53 @@ function endGame(){
 function updateProfile(){
 
   document.getElementById("profileName")
-    .textContent=data.name;
+    .textContent = data.name;
+
+  document.getElementById("profileId")
+    .textContent = data.id;
 
   document.getElementById("profileLevel")
-    .textContent=data.level;
+    .textContent = data.level;
+
+  document.getElementById("profileXP")
+    .textContent = data.xp;
 
   document.getElementById("profileCoins")
-    .textContent=data.coins;
+    .textContent = data.coins;
 
   document.getElementById("profileStreak")
-    .textContent=data.streak;
+    .textContent = data.streak;
 
+  document.getElementById("profileHighScore")
+    .textContent = data.bestScore;
+
+  document.getElementById("profileGames")
+    .textContent = data.totalGames;
+
+  document.getElementById("profileCorrect")
+    .textContent = data.totalCorrect;
+
+  const totalQuestions =
+    data.totalCorrect + (data.totalWrong || 0);
+
+  document.getElementById("profileQuestions")
+    .textContent = totalQuestions;
+
+  document.getElementById("profileWrong")
+    .textContent = data.totalWrong || 0;
+
+  let accuracy = 0;
+
+  if(totalQuestions > 0){
+    accuracy =
+      Math.round(
+        (data.totalCorrect / totalQuestions) * 100
+      );
+  }
+
+  document.getElementById("profileAccuracy")
+    .textContent = accuracy + "%";
 }
-
-
-function changeName(){
-
-  let name=
-    prompt(
-      "Masukkan nama pemain:",
-      data.name
-    );
-
-  if(!name)return;
-
-  name=name.trim();
-
-  if(!name)return;
-
-  data.name=name.slice(0,20);
-
-  save();
-
-  updateProfile();
-  updateHome();
-
-  toast("👤 Nama berhasil diubah!");
-
-}
-
 
 /* =========================
    EVENT
@@ -2354,29 +2831,41 @@ function beep(
 
 function playClick(){
 
-  const ctx = getAudioContext();
+  const AudioContext =
+    window.AudioContext || window.webkitAudioContext;
+
+  if(!AudioContext){
+    alert("Browser tidak mendukung suara");
+    return;
+  }
+
+  if(!window.audioCtx){
+    window.audioCtx = new AudioContext();
+  }
+
+  const ctx = window.audioCtx;
 
   if(ctx.state === "suspended"){
     ctx.resume();
   }
 
-  const oscillator = ctx.createOscillator();
+  const osc = ctx.createOscillator();
   const gain = ctx.createGain();
 
-  oscillator.type = "square";
-  oscillator.frequency.value = 700;
+  osc.type = "square";
+  osc.frequency.setValueAtTime(700, ctx.currentTime);
 
-  gain.gain.setValueAtTime(0.04, ctx.currentTime);
+  gain.gain.setValueAtTime(0.05, ctx.currentTime);
   gain.gain.exponentialRampToValueAtTime(
     0.001,
-    ctx.currentTime + 0.07
+    ctx.currentTime + 0.1
   );
 
-  oscillator.connect(gain);
+  osc.connect(gain);
   gain.connect(ctx.destination);
 
-  oscillator.start();
-  oscillator.stop(ctx.currentTime + 0.07);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.1);
 }
 
 /* =========================
@@ -2478,6 +2967,110 @@ document.addEventListener(
   },
   {once:true}
 );
+
+  // kode JavaScript game kamu
+  // ...
+
+
+  const avatarInput = document.getElementById("avatarInput");
+  const profileAvatar = document.getElementById("profileAvatar");
+
+  avatarInput.addEventListener("change", function () {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+      profileAvatar.innerHTML = "";
+
+      profileAvatar.style.backgroundImage =
+        `url("${e.target.result}")`;
+
+      profileAvatar.style.backgroundSize = "cover";
+      profileAvatar.style.backgroundPosition = "center";
+      profileAvatar.style.backgroundRepeat = "no-repeat";
+
+      localStorage.setItem(
+        "playerAvatar",
+        e.target.result
+      );
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+const savedAvatar = localStorage.getItem("playerAvatar");
+
+if (savedAvatar) {
+  profileAvatar.innerHTML = "";
+
+  profileAvatar.style.backgroundImage =
+    `url("${savedAvatar}")`;
+
+  profileAvatar.style.backgroundSize = "cover";
+  profileAvatar.style.backgroundPosition = "center";
+  profileAvatar.style.backgroundRepeat = "no-repeat";
+}
+
+
+function showPage(page){
+
+  // Sembunyikan semua section halaman
+  document.querySelectorAll("section").forEach(section => {
+    section.classList.add("hidden");
+  });
+
+  // Tampilkan halaman yang dipilih
+  const target = document.getElementById(page);
+
+  if(!target){
+    console.log("Halaman tidak ditemukan:", page);
+    return;
+  }
+
+  target.classList.remove("hidden");
+
+  // Update profil saat halaman profil dibuka
+  if(page === "profile"){
+    updateProfile();
+  }
+}
+
+
+
+
+function changeName(){
+
+  const newName = prompt(
+    "Masukkan nama pemain:",
+    data.name || "Pemain"
+  );
+
+  if(newName === null) return;
+
+  const name = newName.trim();
+
+  if(name === ""){
+    alert("Nama tidak boleh kosong!");
+    return;
+  }
+
+  data.name = name.slice(0, 20);
+
+  save();
+
+  updateProfile();
+
+  if(typeof updateHome === "function"){
+    updateHome();
+  }
+
+  alert("Nama berhasil diubah!");
+}
 
 
 </script>
